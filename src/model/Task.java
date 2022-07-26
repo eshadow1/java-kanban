@@ -9,20 +9,20 @@ public class Task {
         DONE
     }
 
-    protected final int id;
+    protected Integer id;
     protected final String title;
     protected final String description;
     protected Status status;
 
-    public Task(int id, String title, String description) {
-        this.id = id;
+    public Task(String title, String description) {
+        this.id = null;
         this.title = title;
         this.description = description;
         this.status = Status.NEW;
     }
 
-    public Task(int id, String title, String description, Status status) {
-        this.id = id;
+    public Task(String title, String description, Status status) {
+        this.id = null;
         this.title = title;
         this.description = description;
         this.status = status;
@@ -33,7 +33,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id && Objects.equals(description, task.description)
+        return Objects.equals(id, task.id) && Objects.equals(description, task.description)
                 && Objects.equals(title, task.title);
     }
 
@@ -60,7 +60,7 @@ public class Task {
         return description;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -68,6 +68,9 @@ public class Task {
         return status;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
     protected void setStatus(Status status) {
         this.status = status;
     }

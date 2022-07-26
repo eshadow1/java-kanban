@@ -3,19 +3,19 @@ package model;
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private final int idParentEpic;
+    private final Integer idParentEpic;
 
-    public Subtask(int id, String title, String description, int idParentEpic) {
-        super(id, title, description);
+    public Subtask(String title, String description, Integer idParentEpic) {
+        super(title, description);
         this.idParentEpic = idParentEpic;
     }
 
-    public Subtask(int id, String title, String description, int idParentEpic, Status status) {
-        super(id, title, description, status);
+    public Subtask(String title, String description, Integer idParentEpic, Status status) {
+        super(title, description, status);
         this.idParentEpic = idParentEpic;
     }
 
-    public int getIdParentEpic() {
+    public Integer getIdParentEpic() {
         return idParentEpic;
     }
 
@@ -25,7 +25,7 @@ public class Subtask extends Task {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Subtask subtask = (Subtask) o;
-        return idParentEpic == subtask.idParentEpic;
+        return idParentEpic.equals(subtask.idParentEpic);
     }
 
     @Override

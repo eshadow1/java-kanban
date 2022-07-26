@@ -2,39 +2,37 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Epic extends Task {
-    private final Set<Subtask> subtasks;
+    private final Map<Integer, Subtask> subtasks;
 
-    public Epic(int id, String title, String description) {
-        super(id, title, description);
-        this.subtasks = new HashSet<>();
+    public Epic(String title, String description) {
+        super(title, description);
+        this.subtasks = new HashMap<>();
     }
 
-    public Epic(int id, String title, String description, Set<Subtask> subtasks) {
-        super(id, title, description);
+    public Epic(String title, String description, Map<Integer, Subtask> subtasks) {
+        super(title, description);
         this.subtasks = subtasks;
         updateStatus();
     }
 
     public void addSubtask(Subtask subtask) {
-        subtasks.add(subtask);
+        subtasks.put(subtask.getId(), subtask);
         updateStatus();
     }
 
     public void updateSubtask(Subtask subtask) {
-        if (!subtasks.add(subtask)) {
-            subtasks.remove(subtask);
-            subtasks.add(subtask);
-        }
+        subtasks.remove(subtask.getId());
+        subtasks.put(subtask.getId(), subtask);
         updateStatus();
     }
 
     public void removeSubtask(Subtask subtask) {
-        subtasks.remove(subtask);
+        subtasks.remove(subtask.getId());
         updateStatus();
     }
 
@@ -44,7 +42,7 @@ public class Epic extends Task {
         boolean isDone = true;
         boolean isNew = true;
 
-        for (Subtask subtask : subtasks) {
+        for (Subtask subtask : subtasks.values()) {
             if (subtask.getStatus() != Status.NEW) isNew = false;
             if (subtask.getStatus() != Status.DONE) isDone = false;
             if (!isDone && !isNew) break;
@@ -55,7 +53,7 @@ public class Epic extends Task {
     }
 
     public List<Subtask> getSubtasks() {
-        return new ArrayList<>(subtasks);
+        return new ArrayList<>(subtasks.values());
     }
 
     public void clearSubtasks() {
@@ -84,7 +82,7 @@ public class Epic extends Task {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", subtasks=" + subtasks +
+                ", subtasks=" + subtasks.values() +
                 '}';
     }
 }

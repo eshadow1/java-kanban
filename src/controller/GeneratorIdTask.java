@@ -1,9 +1,9 @@
 package controller;
 
 public class GeneratorIdTask {
-    private int id;
+    private static Integer id = 0;
 
-    public int getId() {
+    public static int getId() {
         return id++;
     }
 }

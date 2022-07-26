@@ -3,7 +3,7 @@ package controller;
 import model.Epic;
 import model.Subtask;
 import model.Task;
-import view.DisplayInfo;
+import logger.DisplayInfoLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,13 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 public class AllTaskManager {
-    private final DisplayInfo displayInfo;
     private final Map<Integer, Subtask> subtasks;
     private final Map<Integer, Task> tasks;
     private final Map<Integer, Epic> epics;
 
     public AllTaskManager() {
-        this.displayInfo = new DisplayInfo();
         this.subtasks = new HashMap<>();
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
@@ -35,7 +33,15 @@ public class AllTaskManager {
         }
     }
 
-    public void clearEpics() {
+    public void clearEpics() throws AllTaskException {
+        for (int idEpic : epics.keySet()) {
+            Epic epic = epics.get(idEpic);
+            if (!epic.getSubtasks().isEmpty()) {
+                DisplayInfoLogger.logNotClearEpics();
+                throw new AllTaskException("Not empty list subtask for epic");
+            }
+        }
+
         epics.clear();
     }
 
@@ -54,7 +60,6 @@ public class AllTaskManager {
         return epics.get(idTask);
     }
 
-
     public List<Task> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
@@ -67,90 +72,119 @@ public class AllTaskManager {
         return new ArrayList<>(epics.values());
     }
 
-    public void create(Task task) {
-        tasks.remove(task.getId());
-        tasks.put(task.getId(), task);
+    public Task create(Task task) throws AllTaskException {
+        if (task.getId() != null || !task.getStatus().equals(Task.Status.NEW)) {
+            DisplayInfoLogger.logNotNewTask();
+            throw new AllTaskException("Not new task");
+        }
+        task.setId(GeneratorIdTask.getId());
+        return tasks.put(task.getId(), task);
     }
 
-    public void create(Subtask subtask) {
+    public Subtask create(Subtask subtask) throws AllTaskException {
+        if (subtask.getId() != null || !subtask.getStatus().equals(Task.Status.NEW)) {
+            DisplayInfoLogger.logNotNewTask();
+            throw new AllTaskException("Not new subtask");
+        }
+
+        subtask.setId(GeneratorIdTask.getId());
+
         if (!epics.containsKey(subtask.getIdParentEpic())) {
-            displayInfo.logNotFoundEpicForSubtask(subtask.getId(), subtask.getIdParentEpic());
-            return;
+            DisplayInfoLogger.logNotFoundEpicForSubtask(subtask.getId(), subtask.getIdParentEpic());
+            return subtask;
         }
 
         Epic parent = epics.get(subtask.getIdParentEpic());
         parent.addSubtask(subtask);
-        subtasks.remove(subtask.getId());
-        subtasks.put(subtask.getId(), subtask);
+        return subtasks.put(subtask.getId(), subtask);
     }
 
-    public void create(Epic epic) {
-        epics.remove(epic.getId());
-        epics.put(epic.getId(), epic);
+    public Epic create(Epic epic) throws AllTaskException {
+        if (epic.getId() != null || !epic.getStatus().equals(Task.Status.NEW)) {
+            DisplayInfoLogger.logNotNewTask();
+            throw new AllTaskException("Not new epic");
+        }
+        epic.setId(GeneratorIdTask.getId());
+        return epics.put(epic.getId(), epic);
     }
 
-    public void update(Task task) {
+    public Task update(Task task) throws AllTaskException {
+        if (task.getId() == null) {
+            DisplayInfoLogger.logNotIdTask();
+            throw new AllTaskException("Not ID task");
+        }
+
         if (!tasks.containsKey(task.getId())) {
-            displayInfo.logNotFoundTask(task.getId());
-            return;
+            DisplayInfoLogger.logNotFoundTask(task.getId());
+            return task;
         }
 
         tasks.remove(task.getId());
-        tasks.put(task.getId(), task);
+        return tasks.put(task.getId(), task);
     }
 
-    public void update(Subtask subtask) {
-        if (!subtasks.containsKey(subtask.getId())) {
-            displayInfo.logNotFoundTask(subtask.getId());
-            return;
+    public Subtask update(Subtask subtask) throws AllTaskException {
+        if (subtask.getId() == null) {
+            DisplayInfoLogger.logNotIdTask();
+            throw new AllTaskException("Not ID subtask");
         }
 
-        subtasks.remove(subtask.getId());
-        subtasks.put(subtask.getId(), subtask);
+        if (!subtasks.containsKey(subtask.getId())) {
+            DisplayInfoLogger.logNotFoundTask(subtask.getId());
+            return subtask;
+        }
+
         Epic parent = epics.get(subtask.getIdParentEpic());
         parent.updateSubtask(subtask);
+        subtasks.remove(subtask.getId());
+        return subtasks.put(subtask.getId(), subtask);
     }
 
-    public void update(Epic epic) {
+    public Epic update(Epic epic) throws AllTaskException {
+        if (epic.getId() == null) {
+            DisplayInfoLogger.logNotIdTask();
+            throw new AllTaskException("Not ID epic");
+        }
+
         if (!epics.containsKey(epic.getId())) {
-            displayInfo.logNotFoundTask(epic.getId());
-            return;
+            DisplayInfoLogger.logNotFoundTask(epic.getId());
+            return epic;
         }
         epic.updateStatus();
         epics.remove(epic.getId());
-        epics.put(epic.getId(), epic);
+        return epics.put(epic.getId(), epic);
     }
 
-    public void deleteTask(int idTask) {
+    public Task removeTask(int idTask) {
         if (!tasks.containsKey(idTask)) {
-            displayInfo.logNotFoundTask(idTask);
-            return;
+            DisplayInfoLogger.logNotFoundTask(idTask);
+            return null;
         }
-        tasks.remove(idTask);
+        return tasks.remove(idTask);
     }
 
-    public void deleteSubtask(int idTask) {
+    public Subtask removeSubtask(int idTask) {
         if (!subtasks.containsKey(idTask)) {
-            displayInfo.logNotFoundTask(idTask);
-            return;
+            DisplayInfoLogger.logNotFoundTask(idTask);
+            return null;
         }
         Subtask subtask = subtasks.get(idTask);
         Epic epicParent = epics.get(subtask.getIdParentEpic());
         epicParent.removeSubtask(subtask);
-        subtasks.remove(idTask);
+        return subtasks.remove(idTask);
     }
 
-    public void deleteEpic(int idTask) {
+    public Epic removeEpic(int idTask) throws AllTaskException {
         if (!epics.containsKey(idTask)) {
-            displayInfo.logNotFoundTask(idTask);
-            return;
+            DisplayInfoLogger.logNotFoundTask(idTask);
+            return null;
         }
         Epic epic = epics.get(idTask);
         if (!epic.getSubtasks().isEmpty()) {
-            displayInfo.logNotEmptyEpic(epic.getId());
-            return;
+            DisplayInfoLogger.logNotEmptyEpic(epic.getId());
+            throw new AllTaskException("Not empty list subtask for epic");
         }
-        epics.remove(idTask);
+        return epics.remove(idTask);
     }
 
     public List<Subtask> getSubtasksForEpic(int idEpic) {
