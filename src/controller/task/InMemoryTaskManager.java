@@ -212,6 +212,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return epics.get(idEpic).getSubtasks();
     }
+
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
