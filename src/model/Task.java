@@ -3,12 +3,6 @@ package model;
 import java.util.Objects;
 
 public class Task {
-    public enum Status {
-        NEW,
-        IN_PROGRESS,
-        DONE
-    }
-
     protected Integer id;
     protected final String title;
     protected final String description;

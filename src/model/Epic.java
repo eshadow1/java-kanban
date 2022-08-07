@@ -37,7 +37,10 @@ public class Epic extends Task {
     }
 
     public void updateStatus() {
-        if (subtasks.isEmpty()) setStatus(Status.NEW);
+        if (subtasks.isEmpty()) {
+            setStatus(Status.NEW);
+            return;
+        }
 
         boolean isDone = true;
         boolean isNew = true;
