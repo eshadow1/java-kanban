@@ -1,6 +1,5 @@
 package controller.task;
 
-import controller.GeneratorIdTask;
 import controller.Manager;
 import controller.history.HistoryManager;
 import model.Epic;

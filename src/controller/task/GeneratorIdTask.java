@@ -1,4 +1,4 @@
-package controller;
+package controller.task;
 
 public class GeneratorIdTask {
     private static Integer id = 0;
