@@ -28,12 +28,12 @@ public class Task {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return Objects.equals(id, task.id) && Objects.equals(description, task.description)
-                && Objects.equals(title, task.title);
+                && Objects.equals(title, task.title) && Objects.equals(status, task.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, id);
+        return Objects.hash(title, description, id, status);
     }
 
     @Override

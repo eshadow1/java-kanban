@@ -11,7 +11,7 @@ public interface TaskManager {
 
     void clearSubtasks();
 
-    void clearEpics() throws TaskManagerException;
+    void clearEpics();
 
     Task getTask(int idTask);
 
@@ -25,23 +25,23 @@ public interface TaskManager {
 
     List<Epic> getAllEpics();
 
-    Task create(Task task) throws TaskManagerException;
+    Task create(Task task);
 
-    Subtask create(Subtask subtask) throws TaskManagerException;
+    Subtask create(Subtask subtask);
 
-    Epic create(Epic epic) throws TaskManagerException;
+    Epic create(Epic epic);
 
-    Task update(Task task) throws TaskManagerException;
+    Task update(Task task);
 
-    Subtask update(Subtask subtask) throws TaskManagerException;
+    Subtask update(Subtask subtask);
 
-    Epic update(Epic epic) throws TaskManagerException;
+    Epic update(Epic epic);
 
     Task removeTask(int idTask);
 
     Subtask removeSubtask(int idTask);
 
-    Epic removeEpic(int idTask) throws TaskManagerException;
+    Epic removeEpic(int idTask);
 
     List<Subtask> getSubtasksForEpic(int idEpic);
 

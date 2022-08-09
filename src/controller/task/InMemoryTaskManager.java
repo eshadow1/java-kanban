@@ -41,14 +41,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void clearEpics() throws TaskManagerException {
-        for (int idEpic : epics.keySet()) {
-            Epic epic = epics.get(idEpic);
-            if (!epic.getSubtasks().isEmpty()) {
-                throw new TaskManagerException("Not empty list subtask for epic");
-            }
-        }
-
+    public void clearEpics() {
+        subtasks.clear();
         epics.clear();
     }
 
@@ -94,7 +88,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task create(Task task) throws TaskManagerException {
+    public Task create(Task task) {
         if (task.getId() != null || !task.getStatus().equals(Status.NEW)) {
             throw new TaskManagerException("Not new task");
         }
@@ -103,7 +97,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Subtask create(Subtask subtask) throws TaskManagerException {
+    public Subtask create(Subtask subtask) {
         if (subtask.getId() != null || !subtask.getStatus().equals(Status.NEW)) {
             throw new TaskManagerException("Not new subtask");
         }
@@ -121,7 +115,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Epic create(Epic epic) throws TaskManagerException {
+    public Epic create(Epic epic) {
         if (epic.getId() != null || !epic.getStatus().equals(Status.NEW)) {
             throw new TaskManagerException("Not new epic");
         }
@@ -130,7 +124,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task update(Task task) throws TaskManagerException {
+    public Task update(Task task) {
         if (task.getId() == null) throw new TaskManagerException("Not ID task");
 
         if (!tasks.containsKey(task.getId())) {
@@ -138,12 +132,11 @@ public class InMemoryTaskManager implements TaskManager {
             return task;
         }
 
-        tasks.remove(task.getId());
         return tasks.put(task.getId(), task);
     }
 
     @Override
-    public Subtask update(Subtask subtask) throws TaskManagerException {
+    public Subtask update(Subtask subtask) {
         if (subtask.getId() == null) throw new TaskManagerException("Not ID subtask");
 
         if (!subtasks.containsKey(subtask.getId())) {
@@ -153,12 +146,11 @@ public class InMemoryTaskManager implements TaskManager {
 
         Epic parent = epics.get(subtask.getIdParentEpic());
         parent.updateSubtask(subtask);
-        subtasks.remove(subtask.getId());
         return subtasks.put(subtask.getId(), subtask);
     }
 
     @Override
-    public Epic update(Epic epic) throws TaskManagerException {
+    public Epic update(Epic epic) {
         if (epic.getId() == null) throw new TaskManagerException("Not ID epic");
 
         if (!epics.containsKey(epic.getId())) {
@@ -166,7 +158,6 @@ public class InMemoryTaskManager implements TaskManager {
             return epic;
         }
         epic.updateStatus();
-        epics.remove(epic.getId());
         return epics.put(epic.getId(), epic);
     }
 
@@ -192,14 +183,17 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Epic removeEpic(int idTask) throws TaskManagerException {
+    public Epic removeEpic(int idTask) {
         if (!epics.containsKey(idTask)) {
             DisplayInfoLogger.logNotFoundTask(idTask);
             return null;
         }
-        Epic epic = epics.get(idTask);
-        if (!epic.getSubtasks().isEmpty()) {
-            throw new TaskManagerException("Not empty list subtask for epic");
+
+        List<Subtask> subtasksEpic = epics.get(idTask).getSubtasks();
+        if (!subtasksEpic.isEmpty()) {
+            for (Subtask subtask : subtasksEpic) {
+                subtasks.remove(subtask.getId());
+            }
         }
         return epics.remove(idTask);
     }

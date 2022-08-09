@@ -2,6 +2,7 @@ package controller.history;
 
 import model.Task;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +23,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return history;
+        return new ArrayList<>(history);
     }
 }
