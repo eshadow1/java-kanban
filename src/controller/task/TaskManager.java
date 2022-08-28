@@ -1,8 +1,8 @@
 package controller.task;
 
-import model.Epic;
-import model.Subtask;
-import model.Task;
+import model.task.Epic;
+import model.task.Subtask;
+import model.task.Task;
 
 import java.util.List;
 

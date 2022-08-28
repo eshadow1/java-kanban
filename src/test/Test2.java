@@ -3,8 +3,8 @@ package test;
 import controller.Manager;
 import controller.task.TaskManager;
 import controller.task.TaskManagerException;
-import model.Epic;
-import model.Subtask;
+import model.task.Epic;
+import model.task.Subtask;
 
 public class Test2 {
     public static boolean removeTasksById() {

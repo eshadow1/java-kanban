@@ -19,5 +19,8 @@ public class Main {
 
         System.out.println(Test6.getHistory());
         System.out.println();
+
+        System.out.println(Test7.getHistoryWithRemoveTask());
+        System.out.println();
     }
 }

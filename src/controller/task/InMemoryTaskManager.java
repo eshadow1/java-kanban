@@ -2,10 +2,10 @@ package controller.task;
 
 import controller.Manager;
 import controller.history.HistoryManager;
-import model.Epic;
-import model.Subtask;
-import model.Task;
-import model.Status;
+import model.task.Epic;
+import model.task.Subtask;
+import model.task.Task;
+import model.task.Status;
 import logger.DisplayInfoLogger;
 
 import java.util.ArrayList;
@@ -26,13 +26,21 @@ public class InMemoryTaskManager implements TaskManager {
         this.historyManager = Manager.getDefaultHistory();
     }
 
+    private <T> void clearHistoryTasks(Map<Integer, T> mapTasks) {
+        for (Integer idTask : mapTasks.keySet()) {
+            historyManager.remove(idTask);
+        }
+    }
+
     @Override
     public void clearTasks() {
+        clearHistoryTasks(tasks);
         tasks.clear();
     }
 
     @Override
     public void clearSubtasks() {
+        clearHistoryTasks(subtasks);
         subtasks.clear();
         for (int idEpic : epics.keySet()) {
             Epic epic = epics.get(idEpic);
@@ -42,7 +50,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearEpics() {
+        clearHistoryTasks(subtasks);
         subtasks.clear();
+        clearHistoryTasks(epics);
         epics.clear();
     }
 
@@ -167,6 +177,7 @@ public class InMemoryTaskManager implements TaskManager {
             DisplayInfoLogger.logNotFoundTask(idTask);
             return null;
         }
+        historyManager.remove(idTask);
         return tasks.remove(idTask);
     }
 
@@ -179,6 +190,7 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask subtask = subtasks.get(idTask);
         Epic epicParent = epics.get(subtask.getIdParentEpic());
         epicParent.removeSubtask(subtask);
+        historyManager.remove(idTask);
         return subtasks.remove(idTask);
     }
 
@@ -192,9 +204,12 @@ public class InMemoryTaskManager implements TaskManager {
         List<Subtask> subtasksEpic = epics.get(idTask).getSubtasks();
         if (!subtasksEpic.isEmpty()) {
             for (Subtask subtask : subtasksEpic) {
-                subtasks.remove(subtask.getId());
+                int idSubtask = subtask.getId();
+                historyManager.remove(idSubtask);
+                subtasks.remove(idSubtask);
             }
         }
+        historyManager.remove(idTask);
         return epics.remove(idTask);
     }
 

@@ -1,28 +1,28 @@
 package controller.history;
 
-import model.Task;
+import model.task.Task;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final List<Task> history;
-    private static final int MAX_HISTORY_SIZE = 10;
+    private final CustomLinkedList<Task> history;
 
     public InMemoryHistoryManager() {
-        this.history = new LinkedList<>();
+        this.history = new CustomLinkedList<>();
     }
 
     @Override
     public void add(Task task) {
-        if (history.size() >= MAX_HISTORY_SIZE) history.remove(0);
+        history.linkLast(task.getId(), task);
+    }
 
-        history.add(task);
+    @Override
+    public void remove(int idTask) {
+        history.remove(idTask);
     }
 
     @Override
     public List<Task> getHistory() {
-        return new ArrayList<>(history);
+        return history.getTasks();
     }
 }

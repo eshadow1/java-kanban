@@ -3,10 +3,10 @@ package test;
 import controller.Manager;
 import controller.task.TaskManager;
 import controller.task.TaskManagerException;
-import model.Epic;
-import model.Status;
-import model.Subtask;
-import model.Task;
+import model.task.Epic;
+import model.task.Status;
+import model.task.Subtask;
+import model.task.Task;
 
 public class Test3 {
     public static boolean changeStatusTasks() {
