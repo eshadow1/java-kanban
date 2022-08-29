@@ -60,8 +60,13 @@ public class Test7 {
             System.out.println(e.getMessage());
         }
 
-        System.out.println(taskManager.getTask(testTask1.getId()));
+        System.out.println("Empty history");
         List<Task> history = taskManager.getHistory();
+        System.out.println(history);
+        if (history.size() != 0) isSuccessTest = false;
+
+        System.out.println(taskManager.getTask(testTask1.getId()));
+        history = taskManager.getHistory();
         System.out.println(history);
         if (history.size() != 1) isSuccessTest = false;
         for (Task task : history) System.out.print(task.getId() + " ");

@@ -9,13 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 class CustomLinkedList<T extends Task> {
-    private final Map<Integer, Node<T>> indexNode;
-    private Node<T> headTasks;
-    private Node<T> lastTasks;
-
-    CustomLinkedList() {
-        indexNode = new HashMap<>();
-    }
+    private final Map<Integer, Node<T>> indexNode = new HashMap<>();
+    private Node<T> headTasks = null;
+    private Node<T> lastTasks = null;
 
     public void linkLast(int idTask, T task) {
         Node<T> newNodeTask = new Node<>(task);
@@ -33,19 +29,25 @@ class CustomLinkedList<T extends Task> {
     }
 
     public List<T> getTasks() {
-        if (headTasks == null) return new ArrayList<>();
+        if (headTasks == null) {
+            return new ArrayList<>();
+        }
+
         List<T> tasksInArray = new ArrayList<>(indexNode.size());
         Node<T> currentNode = headTasks;
-        do {
+
+        while (currentNode != null) {
             tasksInArray.add(currentNode.getData());
-            if (currentNode == lastTasks) break;
             currentNode = currentNode.getNextNode();
-        } while (true);
+        }
+
         return tasksInArray;
     }
 
     public void remove(int idTask) {
-        if (!indexNode.containsKey(idTask)) return;
+        if (!indexNode.containsKey(idTask)) {
+            return;
+        }
 
         removeNode(indexNode.get(idTask));
         indexNode.remove(idTask);

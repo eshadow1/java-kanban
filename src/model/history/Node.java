@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Node<T> {
     private Node<T> nextNode;
     private Node<T> prevNode;
-    private T data;
+    final private T data;
 
     public Node(T data) {
         this.data = data;
@@ -18,7 +18,7 @@ public class Node<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node<?> node = (Node<?>) o;
-        return Objects.equals(nextNode, node.nextNode) && Objects.equals(prevNode, node.prevNode) && Objects.equals(data, node.data);
+        return Objects.equals(data, node.data);
     }
 
     @Override
@@ -44,9 +44,5 @@ public class Node<T> {
 
     public T getData() {
         return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
     }
 }
