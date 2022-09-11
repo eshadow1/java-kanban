@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
 
+import static model.task.Type.EPIC;
+
 public class Epic extends Task {
     private final Map<Integer, Subtask> subtasks;
 
@@ -17,6 +19,12 @@ public class Epic extends Task {
     public Epic(String title, String description, Map<Integer, Subtask> subtasks) {
         super(title, description);
         this.subtasks = subtasks;
+        updateStatus();
+    }
+
+    private Epic(Integer id, String title, String description, Status status) {
+        super(id, title, description, status);
+        this.subtasks = new HashMap<>();
         updateStatus();
     }
 
@@ -80,12 +88,15 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Epic{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", subtasks=" + subtasks.values() +
-                '}';
+        return id + "," +
+                EPIC + "," +
+                title + "," +
+                status + "," +
+                description + ",";
+    }
+
+    static public Epic fromArrayString(String[] value) {
+        return new Epic(Integer.parseInt(value[SchemeCsv.ID.ordinal()]), value[SchemeCsv.NAME.ordinal()],
+                value[SchemeCsv.DESCRIPTION.ordinal()], Status.valueOf(value[SchemeCsv.STATUS.ordinal()]));
     }
 }

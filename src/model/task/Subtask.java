@@ -2,6 +2,8 @@ package model.task;
 
 import java.util.Objects;
 
+import static model.task.Type.SUBTASK;
+
 public class Subtask extends Task {
     private final Integer idParentEpic;
 
@@ -12,6 +14,11 @@ public class Subtask extends Task {
 
     public Subtask(String title, String description, Integer idParentEpic, Status status) {
         super(title, description, status);
+        this.idParentEpic = idParentEpic;
+    }
+
+    private Subtask(Integer id, String title, String description, Integer idParentEpic, Status status) {
+        super(id, title, description, status);
         this.idParentEpic = idParentEpic;
     }
 
@@ -35,12 +42,17 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "Subtask{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", idParentEpic=" + idParentEpic +
-                '}';
+        return id + "," +
+                SUBTASK + "," +
+                title + "," +
+                status + "," +
+                description + "," +
+                idParentEpic;
+    }
+
+    static public Subtask fromArrayString(String[] value) {
+        return new Subtask(Integer.parseInt(value[SchemeCsv.ID.ordinal()]), value[SchemeCsv.NAME.ordinal()],
+                value[SchemeCsv.DESCRIPTION.ordinal()], Integer.parseInt(value[SchemeCsv.EPIC.ordinal()]),
+                Status.valueOf(value[SchemeCsv.STATUS.ordinal()]));
     }
 }
