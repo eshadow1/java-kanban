@@ -6,6 +6,9 @@ import model.task.*;
 import test.Test8;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +49,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     static public FileBackedTasksManager loadFromFile(File file) {
+        try {
+            Path testFile = Paths.get(file.toString());
+            if (!Files.exists(testFile)) {
+                Files.createFile(testFile);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             if (bufferedReader.ready()) {
