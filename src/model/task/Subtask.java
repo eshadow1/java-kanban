@@ -5,6 +5,7 @@ import java.util.Objects;
 import static model.task.Type.SUBTASK;
 
 public class Subtask extends Task {
+    private static final int SIZE_SUBTASK_CONFIG_CSV = 6;
     private final Integer idParentEpic;
 
     public Subtask(String title, String description, Integer idParentEpic) {
@@ -51,8 +52,18 @@ public class Subtask extends Task {
     }
 
     static public Subtask fromArrayString(String[] value) {
-        return new Subtask(Integer.parseInt(value[SchemeCsv.ID.ordinal()]), value[SchemeCsv.NAME.ordinal()],
-                value[SchemeCsv.DESCRIPTION.ordinal()], Integer.parseInt(value[SchemeCsv.EPIC.ordinal()]),
-                Status.valueOf(value[SchemeCsv.STATUS.ordinal()]));
+        if (value.length != SIZE_SUBTASK_CONFIG_CSV ||
+                !checkedCorrectId(value[SchemeCsv.ID.index]) ||
+                !checkedCorrectId(value[SchemeCsv.EPIC.index])) {
+            return null;
+        }
+
+        return new Subtask(
+                Integer.parseInt(value[SchemeCsv.ID.index]),
+                value[SchemeCsv.NAME.index],
+                value[SchemeCsv.DESCRIPTION.index],
+                Integer.parseInt(value[SchemeCsv.EPIC.index]),
+                Status.valueOf(value[SchemeCsv.STATUS.index])
+        );
     }
 }

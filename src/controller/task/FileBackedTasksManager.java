@@ -1,146 +1,22 @@
 package controller.task;
 
-import controller.history.HistoryManager;
+import controller.history.HistoryFormatter;
 import logger.DisplayInfoLogger;
 import model.task.*;
-import test.Test8;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private final File saveFile;
     private static final String CONFIG_CSV = "id,type,name,status,description,epic\n";
-    private static final int SIZE_EPIC_CONFIG_CSV = 5;
-    private static final int SIZE_SUBTASK_CONFIG_CSV = 6;
-    private static final int SIZE_TASK_CONFIG_CSV = 5;
+    private final File saveFile;
 
-    static public void main(String[] argv) {
-        System.out.println(Test8.getHistoryWithSave());
-        System.out.println();
-    }
-
-    static private Task fromString(String value) {
-        String[] temp = value.split(",");
-
-        switch (temp[SchemeCsv.TYPE.ordinal()]) {
-            case "TASK":
-                if (temp.length != SIZE_TASK_CONFIG_CSV) {
-                    throw new TaskManagerException("Ошибка при создании таска: некорректные данные");
-                }
-                return Task.fromArrayString(temp);
-            case "SUBTASK":
-                if (temp.length != SIZE_SUBTASK_CONFIG_CSV) {
-                    throw new TaskManagerException("Ошибка при создании таска: некорректные данные");
-                }
-                return Subtask.fromArrayString(temp);
-            case "EPIC":
-                if (temp.length != SIZE_EPIC_CONFIG_CSV) {
-                    throw new TaskManagerException("Ошибка при создании таска: некорректные данные");
-                }
-                return Epic.fromArrayString(temp);
-            default:
-                throw new TaskManagerException("Ошибка при создании таска: некорректный тип");
-        }
-    }
-
-    static public FileBackedTasksManager loadFromFile(File file) {
-        try {
-            Path testFile = Paths.get(file.toString());
-            if (!Files.exists(testFile)) {
-                Files.createFile(testFile);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            if (bufferedReader.ready()) {
-                bufferedReader.readLine();
-            }
-
-            while (bufferedReader.ready()) {
-                String temp = bufferedReader.readLine();
-                if (temp.isEmpty()) {
-                    break;
-                } else {
-                    Task taskInHistory = fromString(temp);
-                    if (taskInHistory.getClass() == Task.class) {
-                        fileBackedTasksManager.add(taskInHistory);
-                    } else if (taskInHistory.getClass() == Subtask.class) {
-                        fileBackedTasksManager.add((Subtask) taskInHistory);
-                    } else if (taskInHistory.getClass() == Epic.class) {
-                        fileBackedTasksManager.add((Epic) taskInHistory);
-                    }
-                }
-            }
-
-            List<Integer> tempHistory = historyFromString(bufferedReader.readLine());
-            for (var id : tempHistory) {
-                if (fileBackedTasksManager.getEpic(id) != null) {
-                    continue;
-                }
-                if (fileBackedTasksManager.getSubtask(id) != null) {
-                    continue;
-                }
-                fileBackedTasksManager.getTask(id);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return fileBackedTasksManager;
-    }
-
-    private FileBackedTasksManager(File fileName) {
+    public FileBackedTasksManager(File fileName) {
         saveFile = fileName;
     }
 
-    static String historyToString(HistoryManager manager) {
-        StringBuilder historyString = new StringBuilder();
-        for (var task : manager.getHistory()) {
-            historyString.append(task.getId()).append(",");
-        }
-        historyString.setLength(historyString.length() != 0 ? historyString.length() - 1 : 0);
-        return historyString.toString();
-    }
-
-    static List<Integer> historyFromString(String value) {
-        if (value == null || value.isEmpty()) return new ArrayList<>();
-
-        String[] history = value.split(",");
-        List<Integer> historyTasks = new ArrayList<>();
-        for (String s : history) {
-            historyTasks.add(Integer.parseInt(s));
-        }
-        return historyTasks;
-    }
-
-    void save() {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile))) {
-            bufferedWriter.write(CONFIG_CSV);
-            for (var task : getAllTasks()) {
-                bufferedWriter.write(task.toString() + "\n");
-            }
-            for (var epic : getAllEpics()) {
-                bufferedWriter.write(epic.toString() + "\n");
-            }
-            for (var subtask : getAllSubtasks()) {
-                bufferedWriter.write(subtask.toString() + "\n");
-            }
-            bufferedWriter.write("\n");
-            bufferedWriter.write(historyToString(historyManager));
-        } catch (IOException error) {
-            throw new ManagerSaveException(error.getMessage());
-        }
-    }
-
-    @Override
     public void clearTasks() {
         super.clearTasks();
         this.save();
@@ -243,10 +119,16 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public Task add(Task task) {
+        if (task == null) {
+            return null;
+        }
         return tasks.put(task.getId(), task);
     }
 
     public Subtask add(Subtask subtask) {
+        if (subtask == null) {
+            return null;
+        }
         if (!epics.containsKey(subtask.getIdParentEpic())) {
             DisplayInfoLogger.logNotFoundEpicForSubtask(subtask.getId(), subtask.getIdParentEpic());
             return subtask;
@@ -258,6 +140,28 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public Epic add(Epic epic) {
+        if (epic == null) {
+            return null;
+        }
         return epics.put(epic.getId(), epic);
+    }
+
+    private void save() {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile))) {
+            bufferedWriter.write(CONFIG_CSV);
+            for (var task : getAllTasks()) {
+                bufferedWriter.write(task.toString() + "\n");
+            }
+            for (var epic : getAllEpics()) {
+                bufferedWriter.write(epic.toString() + "\n");
+            }
+            for (var subtask : getAllSubtasks()) {
+                bufferedWriter.write(subtask.toString() + "\n");
+            }
+            bufferedWriter.write("\n");
+            bufferedWriter.write(HistoryFormatter.historyToString(historyManager));
+        } catch (IOException error) {
+            throw new ManagerSaveException(error.getMessage());
+        }
     }
 }

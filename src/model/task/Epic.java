@@ -9,6 +9,7 @@ import java.util.Objects;
 import static model.task.Type.EPIC;
 
 public class Epic extends Task {
+    private static final int SIZE_EPIC_CONFIG_CSV = 5;
     private final Map<Integer, Subtask> subtasks;
 
     public Epic(String title, String description) {
@@ -96,7 +97,16 @@ public class Epic extends Task {
     }
 
     static public Epic fromArrayString(String[] value) {
-        return new Epic(Integer.parseInt(value[SchemeCsv.ID.ordinal()]), value[SchemeCsv.NAME.ordinal()],
-                value[SchemeCsv.DESCRIPTION.ordinal()], Status.valueOf(value[SchemeCsv.STATUS.ordinal()]));
+        if (value.length != SIZE_EPIC_CONFIG_CSV ||
+                !checkedCorrectId(value[SchemeCsv.ID.index])) {
+            return null;
+        }
+
+        return new Epic(
+                Integer.parseInt(value[SchemeCsv.ID.index]),
+                value[SchemeCsv.NAME.index],
+                value[SchemeCsv.DESCRIPTION.index],
+                Status.valueOf(value[SchemeCsv.STATUS.index])
+        );
     }
 }

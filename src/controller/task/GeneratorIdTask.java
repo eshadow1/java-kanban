@@ -6,4 +6,8 @@ public class GeneratorIdTask {
     public static int getId() {
         return id++;
     }
+
+    public static void setStartPosition(int startPosition) {
+        id = startPosition;
+    }
 }
