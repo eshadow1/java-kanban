@@ -4,19 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryFormatter {
-    private HistoryFormatter(){
+    private HistoryFormatter() {
     }
 
-    static public String historyToString(HistoryManager manager) {
-        StringBuilder historyString = new StringBuilder();
-        for (var task : manager.getHistory()) {
-            historyString.append(task.getId()).append(",");
-        }
-        historyString.setLength(historyString.length() != 0 ? historyString.length() - 1 : 0);
-        return historyString.toString();
+    public static String historyToString(HistoryManager manager) {
+        return manager.toString();
     }
 
-    static public List<Integer> historyFromString(String value) {
+    public static List<Integer> historyFromString(String value) {
         if (value == null || value.isEmpty()) return new ArrayList<>();
 
         String[] history = value.split(",");
