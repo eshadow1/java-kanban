@@ -1,4 +1,4 @@
-package test;
+package logic;
 
 import controller.Manager;
 import controller.task.TaskManager;
@@ -9,8 +9,13 @@ import model.task.Task;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class Test6 {
-    public static boolean getHistory() {
+    @Test
+    public void getHistory() {
         boolean isSuccessTest = true;
         System.out.println("Шестой тест: просмотр истории запросов задач");
         Epic testEpic1 = new Epic("epic1", "test1");
@@ -139,6 +144,6 @@ public class Test6 {
         if (history.size() != 8) isSuccessTest = false;
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
-        return isSuccessTest;
+        assertTrue(isSuccessTest);
     }
 }

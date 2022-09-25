@@ -1,4 +1,4 @@
-package test;
+package logic;
 
 import controller.Manager;
 import controller.task.TaskManager;
@@ -6,9 +6,13 @@ import controller.task.TaskManagerException;
 import model.task.Epic;
 import model.task.Subtask;
 import model.task.Task;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Test1 {
-    public static boolean createOutputAndRemoveTasks() {
+    @Test
+    public void createOutputAndRemoveTasks() {
         boolean isSuccessTest = true;
         System.out.println("Первый тест: создание, вывод элементов и удаление всех элементов");
         Task testTask1 = new Task("task1", "test1");
@@ -19,14 +23,14 @@ public class Test1 {
 
         try {
             Task successTestTask1 = taskManager.create(testTask1);
-            if (successTestTask1 != null)  isSuccessTest = false;
+            if (successTestTask1 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
         try {
             Task successTestTask2 = taskManager.create(testTask2);
-            if (successTestTask2 != null)  isSuccessTest = false;
+            if (successTestTask2 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
@@ -40,14 +44,14 @@ public class Test1 {
         }
         try {
             Epic successTestEpic1 = taskManager.create(testEpic1);
-            if (successTestEpic1 != null)  isSuccessTest = false;
+            if (successTestEpic1 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
         try {
             Epic successTestEpic2 = taskManager.create(testEpic2);
-            if (successTestEpic2 != null)  isSuccessTest = false;
+            if (successTestEpic2 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
@@ -56,7 +60,7 @@ public class Test1 {
         Subtask testSubtask2 = new Subtask("subtask2", "test2", testEpic1.getId());
         try {
             Subtask successTestSubtask2 = taskManager.create(testSubtask2);
-            if (successTestSubtask2 != null)  isSuccessTest = false;
+            if (successTestSubtask2 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
@@ -64,7 +68,7 @@ public class Test1 {
         Subtask testSubtask3 = new Subtask("subtask3", "test3", testEpic2.getId());
         try {
             Subtask successTestSubtask3 = taskManager.create(testSubtask3);
-            if (successTestSubtask3 != null)  isSuccessTest = false;
+            if (successTestSubtask3 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
@@ -90,6 +94,6 @@ public class Test1 {
         System.out.println(taskManager.getAllSubtasks());
         System.out.println(taskManager.getAllEpics());
 
-        return isSuccessTest;
+        assertTrue(isSuccessTest);
     }
 }

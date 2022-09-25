@@ -1,4 +1,4 @@
-package test;
+package logic;
 
 import controller.Manager;
 import controller.task.TaskManager;
@@ -9,8 +9,13 @@ import model.task.Task;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class Test8 {
-    public static boolean getHistoryWithSave() {
+    @Test
+    public void getHistoryWithSave() {
         boolean isSuccessTest = true;
         System.out.println("Восьмой тест: просмотр истории из записи");
         Epic testEpic1 = new Epic("epic1", "test1");
@@ -73,7 +78,10 @@ public class Test8 {
         System.out.println("Первоначальная: " + history);
         System.out.println("После загрузки: " + history2);
         if (history.size() != history2.size()) isSuccessTest = false;
-        return isSuccessTest;
+        if (!taskManager2.getTask(testTask1.getId()).equals(taskManager.getTask(testTask1.getId()))) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
     }
 
 }

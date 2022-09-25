@@ -1,4 +1,4 @@
-package test;
+package logic;
 
 import controller.Manager;
 import controller.task.TaskManager;
@@ -7,9 +7,13 @@ import model.task.Epic;
 import model.task.Status;
 import model.task.Subtask;
 import model.task.Task;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Test3 {
-    public static boolean changeStatusTasks() {
+    @Test
+    public void changeStatusTasks() {
         boolean isSuccessTest = true;
         System.out.println("Третий тест: изменение статуса");
         Task testTask1 = new Task("task1", "test1");
@@ -18,14 +22,14 @@ public class Test3 {
         TaskManager taskManager = Manager.getDefault();
         try {
             Task successTestTask1 = taskManager.create(testTask1);
-            if (successTestTask1 != null)  isSuccessTest = false;
+            if (successTestTask1 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
         try {
             Epic successTestEpic1 = taskManager.create(testEpic1);
-            if (successTestEpic1 != null)  isSuccessTest = false;
+            if (successTestEpic1 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
@@ -33,7 +37,7 @@ public class Test3 {
         Subtask testSubtask2 = new Subtask("subtask2", "test2", testEpic1.getId());
         try {
             Subtask successTestSubtask2 = taskManager.create(testSubtask2);
-            if (successTestSubtask2 != null)  isSuccessTest = false;
+            if (successTestSubtask2 != null) isSuccessTest = false;
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
             isSuccessTest = false;
@@ -73,6 +77,6 @@ public class Test3 {
         System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubtasks());
         System.out.println(taskManager.getAllTasks());
-        return isSuccessTest;
+        assertTrue(isSuccessTest);
     }
 }
