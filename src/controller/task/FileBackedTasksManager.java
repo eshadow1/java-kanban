@@ -147,6 +147,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     private void save() {
+        if(saveFile == null) {
+            throw new ManagerSaveException("NullPointerException");
+        }
+
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile))) {
             bufferedWriter.write(CONFIG_CSV);
             for (var task : getAllTasks()) {
