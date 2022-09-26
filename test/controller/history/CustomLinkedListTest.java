@@ -11,15 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CustomLinkedListTest {
     private CustomLinkedList<Task> history;
+    private Task task;
 
     @BeforeEach
     public void beforeEach() {
         history = new CustomLinkedList<>();
+        task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1"});
     }
 
     @Test
     void addTaskAndCheckIt() {
-        Task task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1"});
         history.linkLast(task.getId(), task);
         assertEquals(List.of(task), history.getTasks());
     }
@@ -31,7 +32,6 @@ class CustomLinkedListTest {
 
     @Test
     void removeTaskInHistory() {
-        Task task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1"});
         history.linkLast(task.getId(), task);
         history.remove(task.getId());
         assertEquals(new ArrayList<Task>(), history.getTasks());
