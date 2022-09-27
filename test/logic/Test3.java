@@ -44,7 +44,7 @@ public class Test3 {
         }
 
         Subtask testUpdateSubtask2 = new Subtask("subtask2", "test2",
-                testSubtask2.getIdParentEpic(), Status.IN_PROGRESS);
+                Status.IN_PROGRESS, testSubtask2.getIdParentEpic());
         testUpdateSubtask2.setId(testSubtask2.getId());
         Task testUpdateTask2 = new Task("task2", "test2", Status.IN_PROGRESS);
         testUpdateTask2.setId(testTask2.getId());

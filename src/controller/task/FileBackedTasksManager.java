@@ -10,7 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private static final String CONFIG_CSV = "id,type,name,status,description,epic\n";
+    private static final String CONFIG_CSV = "id,type,name,status,description,datetime,duration,epic\n";
     private final File saveFile;
 
     public FileBackedTasksManager(File fileName) {
@@ -122,6 +122,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         if (task == null) {
             return null;
         }
+        prioritizedTasks.add(task);
         return tasks.put(task.getId(), task);
     }
 
@@ -136,6 +137,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         Epic parent = epics.get(subtask.getIdParentEpic());
         parent.addSubtask(subtask);
+        prioritizedTasks.add(subtask);
         return subtasks.put(subtask.getId(), subtask);
     }
 

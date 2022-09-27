@@ -79,7 +79,7 @@ class InMemoryTaskManagerTest {
         assertEquals(subtask, inMemoryTaskManager.getSubtask(subtask.getId()));
         assertNull(inMemoryTaskManager.getSubtask(notAddId));
 
-        Subtask noCreateSubtask = new Subtask("subtask1", "test1", 0, Status.IN_PROGRESS);
+        Subtask noCreateSubtask = new Subtask("subtask1", "test1", Status.IN_PROGRESS, 0);
         noCreateSubtask.setId(GeneratorIdTask.getId());
 
         final TaskManagerException exception = assertThrows(
@@ -146,13 +146,13 @@ class InMemoryTaskManagerTest {
         inMemoryTaskManager.create(epic);
         inMemoryTaskManager.create(subtask);
 
-        Subtask updateSubtaskInProgress = new Subtask("subtask1", "test1", 0, Status.IN_PROGRESS);
+        Subtask updateSubtaskInProgress = new Subtask("subtask1", "test1", Status.IN_PROGRESS, 0);
         updateSubtaskInProgress.setId(subtask.getId());
         inMemoryTaskManager.update(updateSubtaskInProgress);
         assertEquals(updateSubtaskInProgress, inMemoryTaskManager.getSubtask(subtask.getId()));
         assertEquals(Status.IN_PROGRESS, inMemoryTaskManager.getEpic(epic.getId()).getStatus());
 
-        Subtask updateSubtaskDone = new Subtask("subtask1", "test1", 0, Status.DONE);
+        Subtask updateSubtaskDone = new Subtask("subtask1", "test1", Status.DONE, 0);
         updateSubtaskDone.setId(subtask.getId());
         inMemoryTaskManager.update(updateSubtaskDone);
         assertEquals(updateSubtaskDone, inMemoryTaskManager.getSubtask(subtask.getId()));

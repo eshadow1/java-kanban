@@ -9,14 +9,14 @@ import model.task.Task;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Test8 {
+public class Test9 {
     private static final Path RESOURCES_PATH = Paths.get(System.getProperty("user.dir"), "resources");
     private static final Path DEFAULT_SAVE_FILE = Paths.get(String.valueOf(RESOURCES_PATH), "default_save.csv");
     @BeforeEach
@@ -24,9 +24,9 @@ public class Test8 {
         DEFAULT_SAVE_FILE.toFile().delete();
     }
     @Test
-    public void getHistoryWithSave() {
+    public void getPriorityWithSaveAndTime() {
         boolean isSuccessTest = true;
-        System.out.println("Восьмой тест: просмотр истории из записи");
+        System.out.println("Девятый тест: просмотр истории из записи со временем");
         Epic testEpic1 = new Epic("epic1", "test1");
         Epic testEpic2 = new Epic("epic2", "test2");
         TaskManager taskManager = Manager.getFileBacked();
@@ -41,9 +41,12 @@ public class Test8 {
             System.out.println(e.getMessage());
         }
 
-        Subtask testSubtask1 = new Subtask("subtask1", "test1", testEpic1.getId());
-        Subtask testSubtask2 = new Subtask("subtask2", "test2", testEpic1.getId());
-        Subtask testSubtask3 = new Subtask("subtask3", "test3", testEpic1.getId());
+        LocalDateTime localDateTimeSubtask1 =  LocalDateTime.of(2022, 1, 1, 0, 0, 0, 0);
+        LocalDateTime localDateTimeSubtask2 =  LocalDateTime.of(2022, 2, 1, 0, 0, 0, 0);
+        LocalDateTime localDateTimeSubtask3 =  LocalDateTime.of(2022, 3, 1, 0, 0, 0, 0);
+        Subtask testSubtask1 = new Subtask("subtask1", "test1", localDateTimeSubtask1, 5, testEpic1.getId());
+        Subtask testSubtask2 = new Subtask("subtask2", "test2", localDateTimeSubtask2, 15, testEpic1.getId());
+        Subtask testSubtask3 = new Subtask("subtask3", "test3", localDateTimeSubtask3, 25, testEpic1.getId());
         try {
             Subtask successTestSubtask1 = taskManager.create(testSubtask1);
         } catch (TaskManagerException e) {
@@ -60,8 +63,10 @@ public class Test8 {
             System.out.println(e.getMessage());
         }
 
-        Task testTask1 = new Task("task1", "test1");
-        Task testTask2 = new Task("task2", "test2");
+        LocalDateTime localDateTimeTask1 =  LocalDateTime.of(2022, 1, 1, 1, 0, 0, 0);
+        LocalDateTime localDateTimeTask2 =  LocalDateTime.of(2022, 2, 1, 3, 0, 0, 0);
+        Task testTask1 = new Task("task1", "test1", localDateTimeTask1, 5);
+        Task testTask2 = new Task("task2", "test2", localDateTimeTask2, 5);
 
         try {
             Task successTestTask1 = taskManager.create(testTask1);
@@ -81,15 +86,8 @@ public class Test8 {
         System.out.println(taskManager.getEpic(testEpic1.getId()));
         System.out.println(taskManager.getTask(testTask1.getId()));
 
-        TaskManager taskManager2 = Manager.getFileBacked();
-        List<Task> history = taskManager.getHistory();
-        List<Task> history2 = taskManager2.getHistory();
-        System.out.println("Первоначальная: " + history);
-        System.out.println("После загрузки: " + history2);
-        if (history.size() != history2.size()) isSuccessTest = false;
-        if (!taskManager2.getTask(testTask1.getId()).equals(taskManager.getTask(testTask1.getId()))) {
-            isSuccessTest = false;
-        }
+        taskManager.getPrioritizedTasks();
+
         assertTrue(isSuccessTest);
     }
 

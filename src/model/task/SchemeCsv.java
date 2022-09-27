@@ -6,7 +6,10 @@ public enum SchemeCsv {
     NAME(2),
     STATUS(3),
     DESCRIPTION(4),
-    EPIC(5);
+    DATETIME(5),
+    DURATION(6),
+
+    EPIC(7);
 
     final public int index;
 

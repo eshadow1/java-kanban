@@ -1,26 +1,42 @@
 package model.task;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static model.task.Type.SUBTASK;
 
 public class Subtask extends Task {
-    private static final int SIZE_SUBTASK_CONFIG_CSV = 6;
+    private static final int SIZE_SUBTASK_CONFIG_CSV = 8;
     private final Integer idParentEpic;
+
+    public Subtask(String title, String description, LocalDateTime startTime, int durationMinutes, Integer idParentEpic) {
+        super(title, description, startTime, durationMinutes);
+        this.idParentEpic = idParentEpic;
+        this.type = SUBTASK;
+    }
 
     public Subtask(String title, String description, Integer idParentEpic) {
         super(title, description);
         this.idParentEpic = idParentEpic;
+        this.type = SUBTASK;
     }
 
-    public Subtask(String title, String description, Integer idParentEpic, Status status) {
+    public Subtask(String title, String description, Status status, LocalDateTime startTime, int durationMinutes, Integer idParentEpic) {
+        super(title, description, status, startTime, durationMinutes);
+        this.idParentEpic = idParentEpic;
+        this.type = SUBTASK;
+    }
+
+    public Subtask(String title, String description, Status status, Integer idParentEpic) {
         super(title, description, status);
         this.idParentEpic = idParentEpic;
+        this.type = SUBTASK;
     }
 
-    private Subtask(Integer id, String title, String description, Integer idParentEpic, Status status) {
-        super(id, title, description, status);
+    private Subtask(Integer id, String title, String description, Status status, LocalDateTime startTime, int durationMinutes, Integer idParentEpic) {
+        super(id, title, description, status, startTime, durationMinutes);
         this.idParentEpic = idParentEpic;
+        this.type = SUBTASK;
     }
 
     public Integer getIdParentEpic() {
@@ -43,27 +59,26 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return id + "," +
-                SUBTASK + "," +
-                title + "," +
-                status + "," +
-                description + "," +
-                idParentEpic;
+        return super.toString() + "," + idParentEpic;
     }
 
     static public Subtask fromArrayString(String[] value) {
         if (value.length != SIZE_SUBTASK_CONFIG_CSV ||
                 !checkedCorrectId(value[SchemeCsv.ID.index]) ||
+                !checkedCorrectId(value[SchemeCsv.DURATION.index]) ||
                 !checkedCorrectId(value[SchemeCsv.EPIC.index])) {
             return null;
         }
 
+        LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null :  LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
         return new Subtask(
                 Integer.parseInt(value[SchemeCsv.ID.index]),
                 value[SchemeCsv.NAME.index],
                 value[SchemeCsv.DESCRIPTION.index],
-                Integer.parseInt(value[SchemeCsv.EPIC.index]),
-                Status.valueOf(value[SchemeCsv.STATUS.index])
+                Status.valueOf(value[SchemeCsv.STATUS.index]),
+                localDateTime,
+                Integer.parseInt(value[SchemeCsv.DURATION.index]),
+                Integer.parseInt(value[SchemeCsv.EPIC.index])
         );
     }
 }

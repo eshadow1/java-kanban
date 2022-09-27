@@ -62,10 +62,10 @@ public class Test5 {
         }
 
         Subtask testUpdateSubtask3 = new Subtask("subtask31", "test1",
-                testSubtask3.getIdParentEpic(), Status.DONE);
+                Status.DONE, testSubtask3.getIdParentEpic());
         testUpdateSubtask3.setId(testSubtask3.getId());
         Subtask testUpdateSubtask2 = new Subtask("subtask32", "test1",
-                testSubtask2.getIdParentEpic(), Status.IN_PROGRESS);
+                Status.IN_PROGRESS, testSubtask2.getIdParentEpic());
         testUpdateSubtask2.setId(testSubtask2.getId());
         try {
             taskManager.update(testUpdateSubtask3);
