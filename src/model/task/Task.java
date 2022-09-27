@@ -76,12 +76,13 @@ public class Task implements Comparable<Task>{
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return Objects.equals(id, task.id) && Objects.equals(description, task.description)
-                && Objects.equals(title, task.title) && Objects.equals(status, task.status);
+                && Objects.equals(title, task.title) && Objects.equals(status, task.status)
+                && Objects.equals(startTime, task.startTime) && Objects.equals(durationMinutes, task.durationMinutes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, id, status);
+        return Objects.hash(title, description, id, status, startTime, durationMinutes);
     }
 
     @Override

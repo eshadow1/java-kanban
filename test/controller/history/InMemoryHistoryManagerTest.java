@@ -14,7 +14,7 @@ class InMemoryHistoryManagerTest {
     @BeforeEach
     public void beforeEach() {
         inMemoryHistoryManager = new InMemoryHistoryManager();
-        task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1"});
+        task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null","-1"});
     }
 
     @Test

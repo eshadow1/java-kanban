@@ -12,10 +12,10 @@ class TaskTest {
         Task tempNullIncorrectArrayString = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW"});
         assertNull(tempNullIncorrectArrayString);
 
-        Task tempNullIndex = Task.fromArrayString(new String[]{"a35", "TASK", "task1", "NEW", "test1"});
+        Task tempNullIndex = Task.fromArrayString(new String[]{"a35", "TASK", "task1", "NEW", "test1", "null","-1"});
         assertNull(tempNullIndex);
 
-        Task temp = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1"});
+        Task temp = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null","-1"});
         assertNotNull(temp);
         assertEquals(35, temp.getId());
         assertEquals("task1", temp.getTitle());

@@ -14,7 +14,7 @@ class HistoryFormatterTest {
     @Test
     void getHistoryToString() {
         final HistoryManager historyManager = Manager.getDefaultHistory();
-        Task temp = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1"});
+        Task temp = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null","-1"});
         historyManager.add(temp);
         assertEquals("35", HistoryFormatter.historyToString(historyManager));
     }
