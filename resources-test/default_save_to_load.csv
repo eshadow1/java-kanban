@@ -7,4 +7,4 @@ id,type,name,status,description,datetime,duration,epic
 3,SUBTASK,subtask2,NEW,test2,null,-1,0
 4,SUBTASK,subtask3,NEW,test3,null,-1,0
 
-3,0,6,2
+3,6,2,0

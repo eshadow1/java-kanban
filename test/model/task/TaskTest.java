@@ -3,6 +3,8 @@ package model.task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
@@ -21,5 +23,7 @@ class TaskTest {
         assertEquals("task1", temp.getTitle());
         Assertions.assertEquals(Status.NEW, temp.getStatus());
         assertEquals("test1", temp.getDescription());
+        assertEquals(Type.TASK, temp.getType());
+        assertEquals(Duration.ofMinutes(-1), temp.getDurationMinutes());
     }
 }

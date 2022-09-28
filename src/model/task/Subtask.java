@@ -21,7 +21,8 @@ public class Subtask extends Task {
         this.type = SUBTASK;
     }
 
-    public Subtask(String title, String description, Status status, LocalDateTime startTime, int durationMinutes, Integer idParentEpic) {
+    public Subtask(String title, String description, Status status, LocalDateTime startTime,
+                   int durationMinutes, Integer idParentEpic) {
         super(title, description, status, startTime, durationMinutes);
         this.idParentEpic = idParentEpic;
         this.type = SUBTASK;
@@ -33,7 +34,8 @@ public class Subtask extends Task {
         this.type = SUBTASK;
     }
 
-    private Subtask(Integer id, String title, String description, Status status, LocalDateTime startTime, int durationMinutes, Integer idParentEpic) {
+    private Subtask(Integer id, String title, String description, Status status,
+                    LocalDateTime startTime, int durationMinutes, Integer idParentEpic) {
         super(id, title, description, status, startTime, durationMinutes);
         this.idParentEpic = idParentEpic;
         this.type = SUBTASK;
@@ -63,14 +65,15 @@ public class Subtask extends Task {
     }
 
     static public Subtask fromArrayString(String[] value) {
-        if (value.length != SIZE_SUBTASK_CONFIG_CSV ||
-                !checkedCorrectId(value[SchemeCsv.ID.index]) ||
-                !checkedCorrectId(value[SchemeCsv.DURATION.index]) ||
-                !checkedCorrectId(value[SchemeCsv.EPIC.index])) {
+        if (value.length != SIZE_SUBTASK_CONFIG_CSV
+                || !checkedCorrectId(value[SchemeCsv.ID.index])
+                || !checkedCorrectId(value[SchemeCsv.DURATION.index])
+                || !checkedCorrectId(value[SchemeCsv.EPIC.index])) {
             return null;
         }
 
-        LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null :  LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
+        LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null
+                : LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
         return new Subtask(
                 Integer.parseInt(value[SchemeCsv.ID.index]),
                 value[SchemeCsv.NAME.index],

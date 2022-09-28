@@ -8,24 +8,18 @@ import static model.task.Type.EPIC;
 
 public class Epic extends Task {
     private static final int SIZE_EPIC_CONFIG_CSV = 7;
-    private final TreeMap<Integer, Subtask> subtasks;
+    private final HashMap<Integer, Subtask> subtasks;
 
     public Epic(String title, String description) {
         super(title, description);
-        this.subtasks = new TreeMap<>();
+        this.subtasks = new HashMap<>();
         this.type = EPIC;
     }
 
-    public Epic(String title, String description, Map<Integer, Subtask> subtasks) {
-        super(title, description);
-        this.subtasks = new TreeMap<>(subtasks);
-        this.type = EPIC;
-        updateStatusAndDateTime();
-    }
-
-    private Epic(Integer id, String title, String description, Status status, LocalDateTime startTime, int durationMinutes) {
+    private Epic(Integer id, String title, String description, Status status,
+                 LocalDateTime startTime, int durationMinutes) {
         super(id, title, description, status, startTime, durationMinutes);
-        this.subtasks = new TreeMap<>();
+        this.subtasks = new HashMap<>();
         this.type = EPIC;
         updateStatusAndDateTime();
     }
@@ -37,7 +31,7 @@ public class Epic extends Task {
 
     public void updateSubtask(Subtask subtask) {
         subtasks.remove(subtask.getId());
-        subtasks.put(subtask.getId(), subtask);
+        subtasks.put(subtask.getId(),subtask);
         updateStatusAndDateTime();
     }
 
@@ -79,12 +73,13 @@ public class Epic extends Task {
     }
 
     static public Epic fromArrayString(String[] value) {
-        if (value.length != SIZE_EPIC_CONFIG_CSV ||
-                !checkedCorrectId(value[SchemeCsv.ID.index]) ||
-                !checkedCorrectId(value[SchemeCsv.DURATION.index])) {
+        if (value.length != SIZE_EPIC_CONFIG_CSV
+                || !checkedCorrectId(value[SchemeCsv.ID.index])
+                || !checkedCorrectId(value[SchemeCsv.DURATION.index])) {
             return null;
         }
-        LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null :  LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
+        LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null
+                : LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
         return new Epic(
                 Integer.parseInt(value[SchemeCsv.ID.index]),
                 value[SchemeCsv.NAME.index],
@@ -121,14 +116,24 @@ public class Epic extends Task {
             return;
         }
 
-        LocalDateTime startTime = subtasks.firstEntry().getValue().getStartTime();
-        LocalDateTime endTime = subtasks.lastEntry().getValue().getEndTime();
-        if (startTime != null && endTime == null) {
-            for (var task : subtasks.values()) {
-                if (task.getStartTime() == null) {
-                    break;
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+        for (var task : subtasks.values()) {
+            if (task.getStartTime() != null) {
+                if (startTime == null) {
+                    startTime = task.getStartTime();
+                } else {
+                    if (task.getStartTime().isBefore(startTime)) {
+                        startTime = task.getStartTime();
+                    }
                 }
-                endTime = task.getEndTime();
+                if (endTime == null) {
+                    endTime = task.getEndTime();
+                } else {
+                    if (task.getEndTime().isAfter(endTime)) {
+                        endTime = task.getEndTime();
+                    }
+                }
             }
         }
         setStartTime(startTime);

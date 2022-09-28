@@ -1,6 +1,7 @@
 package logic;
 
 import controller.Manager;
+import controller.task.GeneratorIdTask;
 import controller.task.TaskManager;
 import controller.task.TaskManagerException;
 import model.task.Epic;
@@ -19,10 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class Test8 {
     private static final Path RESOURCES_PATH = Paths.get(System.getProperty("user.dir"), "resources");
     private static final Path DEFAULT_SAVE_FILE = Paths.get(String.valueOf(RESOURCES_PATH), "default_save.csv");
+
     @BeforeEach
     public void beforeEach() {
+        GeneratorIdTask.setStartPosition(GeneratorIdTask.START_GENERATOR);
         DEFAULT_SAVE_FILE.toFile().delete();
     }
+
     @Test
     public void getHistoryWithSave() {
         boolean isSuccessTest = true;

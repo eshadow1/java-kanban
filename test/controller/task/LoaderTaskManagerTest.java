@@ -14,8 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class LoaderTaskManagerTest {
     private static final Path RESOURCES_PATH = Paths.get(System.getProperty("user.dir"), "resources-test");
     private static final Path DEFAULT_SAVE_FILE = Paths.get(String.valueOf(RESOURCES_PATH), "default_save_to_load.csv");
-    private static final Path DEFAULT_SAVE_FILE_WITH_EMPTY_HISTORY = Paths.get(String.valueOf(RESOURCES_PATH), "default_save_to_load_with_empty_history.csv");
-    private static final Path DEFAULT_SAVE_FILE_WITH_EMPTY = Paths.get(String.valueOf(RESOURCES_PATH), "default_save_to_load_with_empty.csv");
+    private static final Path DEFAULT_SAVE_FILE_WITH_EMPTY_HISTORY = Paths.get(String.valueOf(RESOURCES_PATH),
+            "default_save_to_load_with_empty_history.csv");
+    private static final Path DEFAULT_SAVE_FILE_WITH_EMPTY = Paths.get(String.valueOf(RESOURCES_PATH),
+            "default_save_to_load_with_empty.csv");
 
     @Test
     void loadFromFile() {
@@ -33,7 +35,7 @@ class LoaderTaskManagerTest {
         assertEquals(List.of(task1, task2), fileBackedTasksManager.getAllTasks());
         assertEquals(List.of(subtask1, subtask2, subtask3), fileBackedTasksManager.getAllSubtasks());
         assertEquals(List.of(epic1, epic2), fileBackedTasksManager.getAllEpics());
-        assertEquals(List.of(subtask2, epic1, task2, subtask1), fileBackedTasksManager.getHistory());
+        assertEquals(List.of(subtask2, task2, subtask1, epic1), fileBackedTasksManager.getHistory());
     }
 
     @Test

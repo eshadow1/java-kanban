@@ -1,6 +1,7 @@
 package logic;
 
 import controller.Manager;
+import controller.task.GeneratorIdTask;
 import controller.task.TaskManager;
 import controller.task.TaskManagerException;
 import model.task.Epic;
@@ -9,11 +10,17 @@ import model.task.Subtask;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Test5 {
+    @BeforeEach
+    public void beforeEach() {
+        GeneratorIdTask.setStartPosition(GeneratorIdTask.START_GENERATOR);
+    }
+
     @Test
     public void changeStatusAndUpdateSubtasks() {
         boolean isSuccessTest = true;

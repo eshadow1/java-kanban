@@ -9,4 +9,8 @@ public class DisplayInfoLogger {
         System.out.println("Для подзадачи c id " + idSubtask + " не найден эпик c id "
                 + idParentEpic);
     }
+
+    public static void logNotUpdateTaskForDateTime(Integer idTask) {
+        System.out.println("Задача c id " + idTask + " не обновлена из-за некорректного времени");
+    }
 }

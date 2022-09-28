@@ -98,12 +98,13 @@ public class Task implements Comparable<Task>{
     }
 
     static public Task fromArrayString(String[] value) {
-        if (value.length != SIZE_TASK_CONFIG_CSV ||
-                !checkedCorrectId(value[SchemeCsv.ID.index]) ||
-                !checkedCorrectId(value[SchemeCsv.DURATION.index])) {
+        if (value.length != SIZE_TASK_CONFIG_CSV
+                || !checkedCorrectId(value[SchemeCsv.ID.index])
+                || !checkedCorrectId(value[SchemeCsv.DURATION.index])) {
             return null;
         }
-        LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null :  LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
+        LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null
+                : LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
         return new Task(
                 Integer.parseInt(value[SchemeCsv.ID.index]),
                 value[SchemeCsv.NAME.index],

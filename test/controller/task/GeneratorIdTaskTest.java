@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class GeneratorIdTaskTest {
     @Test
     void setStartPosition() {
-        int start = 1;
-        GeneratorIdTask.setStartPosition(start);
-        assertEquals(start, GeneratorIdTask.getId());
+        int newStartPosition = 1;
+        GeneratorIdTask.setStartPosition(newStartPosition);
+        assertEquals(newStartPosition, GeneratorIdTask.getId());
     }
 }

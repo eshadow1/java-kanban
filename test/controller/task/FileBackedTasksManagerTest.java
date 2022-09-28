@@ -11,23 +11,16 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTasksManagerTest {
+class FileBackedTasksManagerTest extends TaskManagerTest{
     private static final Path RESOURCES_PATH = Paths.get(System.getProperty("user.dir"), "resources-test");
     private static final Path DEFAULT_SAVE_FILE = Paths.get(String.valueOf(RESOURCES_PATH), "default_save.csv");
-    private FileBackedTasksManager fileBackedTasksManager;
-    Task task;
-    Subtask subtask;
-    Epic epic;
-
 
     @BeforeEach
     public void beforeEach() {
-        fileBackedTasksManager = new FileBackedTasksManager(DEFAULT_SAVE_FILE.toFile());
+        taskManager = new FileBackedTasksManager(DEFAULT_SAVE_FILE.toFile());
         int startGenerator = 0;
         GeneratorIdTask.setStartPosition(startGenerator);
-        task = new Task("task1", "test1");
-        subtask = new Subtask("subtask1", "test1", 0);
-        epic = new Epic("epic1", "test1");
+        initAllTasks();
     }
 
     @Test
@@ -41,6 +34,7 @@ class FileBackedTasksManagerTest {
     @Test
     void addTask() {
         task.setId(GeneratorIdTask.getId());
+        var fileBackedTasksManager = (FileBackedTasksManager) taskManager;
         fileBackedTasksManager.add(task);
         assertEquals(task, fileBackedTasksManager.getTask(task.getId()));
         assertNull(fileBackedTasksManager.add((Task) null));
@@ -49,6 +43,7 @@ class FileBackedTasksManagerTest {
     @Test
     void addSubtask() {
         epic.setId(GeneratorIdTask.getId());
+        var fileBackedTasksManager = (FileBackedTasksManager) taskManager;
         fileBackedTasksManager.add(epic);
         subtask.setId(GeneratorIdTask.getId());
         fileBackedTasksManager.add(subtask);
@@ -59,6 +54,7 @@ class FileBackedTasksManagerTest {
     @Test
     void addEpic() {
         epic.setId(GeneratorIdTask.getId());
+        var fileBackedTasksManager = (FileBackedTasksManager) taskManager;
         fileBackedTasksManager.add(epic);
         assertEquals(epic, fileBackedTasksManager.getEpic(epic.getId()));
         assertNull(fileBackedTasksManager.add((Epic) null));
