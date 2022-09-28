@@ -149,7 +149,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     private void save() {
-        if(saveFile == null) {
+        if (saveFile == null) {
             throw new ManagerSaveException("NullPointerException");
         }
 

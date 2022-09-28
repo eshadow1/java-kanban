@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTasksManagerTest extends TaskManagerTest{
+class FileBackedTasksManagerTest extends TaskManagerTest {
     private static final Path RESOURCES_PATH = Paths.get(System.getProperty("user.dir"), "resources-test");
     private static final Path DEFAULT_SAVE_FILE = Paths.get(String.valueOf(RESOURCES_PATH), "default_save.csv");
 

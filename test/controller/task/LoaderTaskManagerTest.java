@@ -22,13 +22,13 @@ class LoaderTaskManagerTest {
     @Test
     void loadFromFile() {
         FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE.toFile());
-        Task task1 = Task.fromArrayString(new String[]{"5", "TASK", "task1", "NEW", "test1", "null","-1"});
-        Task task2 = Task.fromArrayString(new String[]{"6", "TASK", "task2", "NEW", "test2", "null","-1"});
-        Epic epic1 = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null","-1"});
-        Epic epic2 = Epic.fromArrayString(new String[]{"1", "EPIC", "epic2", "NEW", "test2", "null","-1"});
-        Subtask subtask1 = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null","-1", "0"});
-        Subtask subtask2 = Subtask.fromArrayString(new String[]{"3", "SUBTASK", "subtask2", "NEW", "test2", "null","-1", "0"});
-        Subtask subtask3 = Subtask.fromArrayString(new String[]{"4", "SUBTASK", "subtask3", "NEW", "test3", "null","-1", "0"});
+        Task task1 = Task.fromArrayString(new String[]{"5", "TASK", "task1", "NEW", "test1", "null", "-1"});
+        Task task2 = Task.fromArrayString(new String[]{"6", "TASK", "task2", "NEW", "test2", "null", "-1"});
+        Epic epic1 = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
+        Epic epic2 = Epic.fromArrayString(new String[]{"1", "EPIC", "epic2", "NEW", "test2", "null", "-1"});
+        Subtask subtask1 = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
+        Subtask subtask2 = Subtask.fromArrayString(new String[]{"3", "SUBTASK", "subtask2", "NEW", "test2", "null", "-1", "0"});
+        Subtask subtask3 = Subtask.fromArrayString(new String[]{"4", "SUBTASK", "subtask3", "NEW", "test3", "null", "-1", "0"});
         epic1.addSubtask(subtask1);
         epic1.addSubtask(subtask2);
         epic1.addSubtask(subtask3);
@@ -41,13 +41,13 @@ class LoaderTaskManagerTest {
     @Test
     void loadFromFileEmptyHistory() {
         FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE_WITH_EMPTY_HISTORY.toFile());
-        Task task1 = Task.fromArrayString(new String[]{"5", "TASK", "task1", "NEW", "test1", "null","-1"});
-        Task task2 = Task.fromArrayString(new String[]{"6", "TASK", "task2", "NEW", "test2", "null","-1"});
-        Epic epic1 = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null","-1"});
-        Epic epic2 = Epic.fromArrayString(new String[]{"1", "EPIC", "epic2", "NEW", "test2", "null","-1"});
-        Subtask subtask1 = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null","-1", "0"});
-        Subtask subtask2 = Subtask.fromArrayString(new String[]{"3", "SUBTASK", "subtask2", "NEW", "test2", "null","-1", "0"});
-        Subtask subtask3 = Subtask.fromArrayString(new String[]{"4", "SUBTASK", "subtask3", "NEW", "test3", "null","-1", "0"});
+        Task task1 = Task.fromArrayString(new String[]{"5", "TASK", "task1", "NEW", "test1", "null", "-1"});
+        Task task2 = Task.fromArrayString(new String[]{"6", "TASK", "task2", "NEW", "test2", "null", "-1"});
+        Epic epic1 = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
+        Epic epic2 = Epic.fromArrayString(new String[]{"1", "EPIC", "epic2", "NEW", "test2", "null", "-1"});
+        Subtask subtask1 = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
+        Subtask subtask2 = Subtask.fromArrayString(new String[]{"3", "SUBTASK", "subtask2", "NEW", "test2", "null", "-1", "0"});
+        Subtask subtask3 = Subtask.fromArrayString(new String[]{"4", "SUBTASK", "subtask3", "NEW", "test3", "null", "-1", "0"});
         epic1.addSubtask(subtask1);
         epic1.addSubtask(subtask2);
         epic1.addSubtask(subtask3);

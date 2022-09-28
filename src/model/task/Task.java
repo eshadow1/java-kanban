@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import static model.task.Type.TASK;
 
-public class Task implements Comparable<Task>{
+public class Task implements Comparable<Task> {
     public static final int DEFAULT_DURATION_MINUTES = -1;
     public static final Duration DEFAULT_DURATION = Duration.ofMinutes(DEFAULT_DURATION_MINUTES);
     public static final LocalDateTime DEFAULT_START_TIME = null;
@@ -132,7 +132,7 @@ public class Task implements Comparable<Task>{
     }
 
     public LocalDateTime getEndTime() {
-        if(startTime == null)
+        if (startTime == null)
             return null;
         return startTime.plus(durationMinutes);
     }

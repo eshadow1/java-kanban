@@ -16,7 +16,7 @@ class CustomLinkedListTest {
     @BeforeEach
     public void beforeEach() {
         history = new CustomLinkedList<>();
-        task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null","-1"});
+        task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null", "-1"});
     }
 
     @Test

@@ -294,12 +294,12 @@ public abstract class TaskManagerTest {
     }
 
     protected void initAllTasks() {
-        LocalDateTime localDateTimeTask1 =  LocalDateTime.of(2022, 1, 1, 1, 0, 0, 0);
-        LocalDateTime localDateTimeTask2 =  LocalDateTime.of(2022, 1, 1, 1, 30, 0, 0);
-        LocalDateTime localDateTimeTask3 =  LocalDateTime.of(2022, 1, 1, 1, 29, 0, 0);
-        LocalDateTime localDateTimeSubtask1 =  LocalDateTime.of(2022, 2, 1, 12, 20, 0, 0);
-        LocalDateTime localDateTimeSubtask2 =  LocalDateTime.of(2022, 2, 1, 11, 0, 0, 0);
-        LocalDateTime localDateTimeSubtask3 =  LocalDateTime.of(2022, 3, 1, 14, 0, 0, 0);
+        LocalDateTime localDateTimeTask1 = LocalDateTime.of(2022, 1, 1, 1, 0, 0, 0);
+        LocalDateTime localDateTimeTask2 = LocalDateTime.of(2022, 1, 1, 1, 30, 0, 0);
+        LocalDateTime localDateTimeTask3 = LocalDateTime.of(2022, 1, 1, 1, 29, 0, 0);
+        LocalDateTime localDateTimeSubtask1 = LocalDateTime.of(2022, 2, 1, 12, 20, 0, 0);
+        LocalDateTime localDateTimeSubtask2 = LocalDateTime.of(2022, 2, 1, 11, 0, 0, 0);
+        LocalDateTime localDateTimeSubtask3 = LocalDateTime.of(2022, 3, 1, 14, 0, 0, 0);
 
         task = new Task("task1", "test1");
         taskWithDateTime1 = new Task("taskWithDateTime1", "test1", localDateTimeTask1, 30);

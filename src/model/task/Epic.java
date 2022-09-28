@@ -31,7 +31,7 @@ public class Epic extends Task {
 
     public void updateSubtask(Subtask subtask) {
         subtasks.remove(subtask.getId());
-        subtasks.put(subtask.getId(),subtask);
+        subtasks.put(subtask.getId(), subtask);
         updateStatusAndDateTime();
     }
 
@@ -44,6 +44,7 @@ public class Epic extends Task {
         updateStatus();
         updateDateTime();
     }
+
     public List<Subtask> getSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
@@ -137,7 +138,7 @@ public class Epic extends Task {
             }
         }
         setStartTime(startTime);
-        if(startTime == null || endTime == null) {
+        if (startTime == null || endTime == null) {
             setDurationMinutes(DEFAULT_DURATION);
         } else {
             setDurationMinutes(Duration.between(startTime, endTime));

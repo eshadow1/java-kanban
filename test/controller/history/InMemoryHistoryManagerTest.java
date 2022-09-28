@@ -11,10 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryHistoryManagerTest {
     private InMemoryHistoryManager inMemoryHistoryManager;
     private Task task;
+
     @BeforeEach
     public void beforeEach() {
         inMemoryHistoryManager = new InMemoryHistoryManager();
-        task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null","-1"});
+        task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null", "-1"});
     }
 
     @Test
