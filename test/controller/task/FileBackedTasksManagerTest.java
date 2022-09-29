@@ -18,13 +18,12 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
     @BeforeEach
     public void beforeEach() {
         taskManager = new FileBackedTasksManager(DEFAULT_SAVE_FILE.toFile());
-        int startGenerator = 0;
-        GeneratorIdTask.setStartPosition(startGenerator);
+        GeneratorIdTask.setStartPosition(0);
         initAllTasks();
     }
 
     @Test
-    void excaptionNullFile() {
+    void exceptionNullFile() {
         FileBackedTasksManager nullFileBackedTasksManager = new FileBackedTasksManager(null);
         assertThrows(
                 ManagerSaveException.class,

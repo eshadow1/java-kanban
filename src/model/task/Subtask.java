@@ -9,7 +9,7 @@ public class Subtask extends Task {
     private static final int SIZE_SUBTASK_CONFIG_CSV = 8;
     private final Integer idParentEpic;
 
-    public Subtask(String title, String description, LocalDateTime startTime, int durationMinutes, Integer idParentEpic) {
+    public Subtask(String title, String description, LocalDateTime startTime, Integer durationMinutes, Integer idParentEpic) {
         super(title, description, startTime, durationMinutes);
         this.idParentEpic = idParentEpic;
         this.type = SUBTASK;
@@ -35,7 +35,7 @@ public class Subtask extends Task {
     }
 
     private Subtask(Integer id, String title, String description, Status status,
-                    LocalDateTime startTime, int durationMinutes, Integer idParentEpic) {
+                    LocalDateTime startTime, Integer durationMinutes, Integer idParentEpic) {
         super(id, title, description, status, startTime, durationMinutes);
         this.idParentEpic = idParentEpic;
         this.type = SUBTASK;
@@ -67,20 +67,24 @@ public class Subtask extends Task {
     static public Subtask fromArrayString(String[] value) {
         if (value.length != SIZE_SUBTASK_CONFIG_CSV
                 || !checkedCorrectId(value[SchemeCsv.ID.index])
-                || !checkedCorrectId(value[SchemeCsv.DURATION.index])
+                || (!"null".equals(value[SchemeCsv.DURATION.index])
+                && !checkedCorrectId(value[SchemeCsv.DURATION.index]))
                 || !checkedCorrectId(value[SchemeCsv.EPIC.index])) {
             return null;
         }
 
         LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null
                 : LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
+        Integer minutes = "null".equals(value[SchemeCsv.DURATION.index]) ? null
+                : Integer.parseInt(value[SchemeCsv.DURATION.index]);
+
         return new Subtask(
                 Integer.parseInt(value[SchemeCsv.ID.index]),
                 value[SchemeCsv.NAME.index],
                 value[SchemeCsv.DESCRIPTION.index],
                 Status.valueOf(value[SchemeCsv.STATUS.index]),
                 localDateTime,
-                Integer.parseInt(value[SchemeCsv.DURATION.index]),
+                minutes,
                 Integer.parseInt(value[SchemeCsv.EPIC.index])
         );
     }

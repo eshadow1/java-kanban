@@ -90,7 +90,11 @@ public class Test8 {
         List<Task> history2 = taskManager2.getHistory();
         System.out.println("Первоначальная: " + history);
         System.out.println("После загрузки: " + history2);
-        if (history.size() != history2.size()) isSuccessTest = false;
+        if (history.size() != history2.size()) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         if (!taskManager2.getTask(testTask1.getId()).equals(taskManager.getTask(testTask1.getId()))) {
             isSuccessTest = false;
         }

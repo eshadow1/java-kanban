@@ -20,6 +20,7 @@ public class Test7 {
     public void beforeEach() {
         GeneratorIdTask.setStartPosition(GeneratorIdTask.START_GENERATOR);
     }
+
     @Test
     public void getHistoryWithRemoveTask() {
         boolean isSuccessTest = true;
@@ -74,56 +75,91 @@ public class Test7 {
         System.out.println("Empty history");
         List<Task> history = taskManager.getHistory();
         System.out.println(history);
-        if (history.size() != 0) isSuccessTest = false;
+        if (history.size() != 0) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
 
         System.out.println(taskManager.getTask(testTask1.getId()));
         history = taskManager.getHistory();
         System.out.println(history);
-        if (history.size() != 1) isSuccessTest = false;
+        if (history.size() != 1) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getTask(testTask2.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 2) isSuccessTest = false;
+        if (history.size() != 2) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getTask(testTask1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 2) isSuccessTest = false;
+        if (history.size() != 2) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getSubtask(testSubtask2.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 3) isSuccessTest = false;
+        if (history.size() != 3) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getEpic(testEpic1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 4) isSuccessTest = false;
+        if (history.size() != 4) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getTask(testTask1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 4) isSuccessTest = false;
+        if (history.size() != 4) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println("Remove task " + testTask2.getId());
         Task testTaskRemove = taskManager.removeTask(testTask2.getId());
         history = taskManager.getHistory();
-        if (history.size() != 3) isSuccessTest = false;
+        if (history.size() != 3) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println("Remove epic " + testEpic1.getId());
         taskManager.removeEpic(testEpic1.getId());
         history = taskManager.getHistory();
-        if (history.size() != 1) isSuccessTest = false;
+        if (history.size() != 1) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 

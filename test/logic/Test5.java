@@ -35,6 +35,8 @@ public class Test5 {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
+        assertTrue(isSuccessTest);
+
         try {
             Epic successTestEpic2 = taskManager.create(testEpic2);
             if (successTestEpic2 != null) isSuccessTest = false;
@@ -42,6 +44,7 @@ public class Test5 {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
+        assertTrue(isSuccessTest);
 
         Subtask testSubtask1 = new Subtask("subtask1", "test1", testEpic1.getId());
         Subtask testSubtask2 = new Subtask("subtask2", "test2", testEpic1.getId());
@@ -53,6 +56,8 @@ public class Test5 {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
+        assertTrue(isSuccessTest);
+
         try {
             Subtask successTestSubtask2 = taskManager.create(testSubtask2);
             if (successTestSubtask2 != null) isSuccessTest = false;
@@ -60,6 +65,8 @@ public class Test5 {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
+        assertTrue(isSuccessTest);
+
         try {
             Subtask successTestSubtask3 = taskManager.create(testSubtask3);
             if (successTestSubtask3 != null) isSuccessTest = false;
@@ -67,6 +74,7 @@ public class Test5 {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
+        assertTrue(isSuccessTest);
 
         Subtask testUpdateSubtask3 = new Subtask("subtask31", "test1",
                 Status.DONE, testSubtask3.getIdParentEpic());
@@ -86,19 +94,46 @@ public class Test5 {
             System.out.println(e.getMessage());
             isSuccessTest = false;
         }
+        assertTrue(isSuccessTest);
 
         List<Epic> allEpics = taskManager.getAllEpics();
         System.out.println(allEpics);
-        if (allEpics.isEmpty()) isSuccessTest = false;
-        if (allEpics.get(0).getStatus() != Status.IN_PROGRESS) isSuccessTest = false;
-        if (allEpics.get(1).getStatus() != Status.DONE) isSuccessTest = false;
+        if (allEpics.isEmpty()) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        if (allEpics.get(0).getStatus() != Status.IN_PROGRESS) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        if (allEpics.get(1).getStatus() != Status.DONE){
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
 
         List<Subtask> allSubtasks = taskManager.getAllSubtasks();
         System.out.println(allSubtasks);
-        if (allSubtasks.isEmpty()) isSuccessTest = false;
-        if (allSubtasks.get(0).getStatus() != Status.NEW) isSuccessTest = false;
-        if (allSubtasks.get(1).getStatus() != Status.IN_PROGRESS) isSuccessTest = false;
-        if (allSubtasks.get(2).getStatus() != Status.DONE) isSuccessTest = false;
+        if (allSubtasks.isEmpty()) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        if (allSubtasks.get(0).getStatus() != Status.NEW) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        if (allSubtasks.get(1).getStatus() != Status.IN_PROGRESS) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        if (allSubtasks.get(2).getStatus() != Status.DONE) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
 
         System.out.println(taskManager.getSubtasksForEpic(testEpic1.getId()));
         System.out.println(taskManager.getSubtasksForEpic(testEpic2.getId()));

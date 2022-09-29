@@ -22,7 +22,7 @@ public class InMemoryTaskManager implements TaskManager {
         this.subtasks = new HashMap<>();
         this.tasks = new HashMap<>();
         this.epics = new HashMap<>();
-        this.prioritizedTasks = new TreeSet<>();
+        this.prioritizedTasks = new TreeSet<>(Task::compareTo);
         this.historyManager = Manager.getDefaultHistory();
     }
 

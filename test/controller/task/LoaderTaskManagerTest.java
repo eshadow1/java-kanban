@@ -18,20 +18,18 @@ class LoaderTaskManagerTest {
             "default_save_to_load_with_empty_history.csv");
     private static final Path DEFAULT_SAVE_FILE_WITH_EMPTY = Paths.get(String.valueOf(RESOURCES_PATH),
             "default_save_to_load_with_empty.csv");
+    private Task task1;
+    private Task task2;
+    private Epic epic1;
+    private Epic epic2;
+    private Subtask subtask1;
+    private Subtask subtask2;
+    private Subtask subtask3;
 
     @Test
     void loadFromFile() {
         FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE.toFile());
-        Task task1 = Task.fromArrayString(new String[]{"5", "TASK", "task1", "NEW", "test1", "null", "-1"});
-        Task task2 = Task.fromArrayString(new String[]{"6", "TASK", "task2", "NEW", "test2", "null", "-1"});
-        Epic epic1 = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
-        Epic epic2 = Epic.fromArrayString(new String[]{"1", "EPIC", "epic2", "NEW", "test2", "null", "-1"});
-        Subtask subtask1 = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
-        Subtask subtask2 = Subtask.fromArrayString(new String[]{"3", "SUBTASK", "subtask2", "NEW", "test2", "null", "-1", "0"});
-        Subtask subtask3 = Subtask.fromArrayString(new String[]{"4", "SUBTASK", "subtask3", "NEW", "test3", "null", "-1", "0"});
-        epic1.addSubtask(subtask1);
-        epic1.addSubtask(subtask2);
-        epic1.addSubtask(subtask3);
+        initAllTasks();
         assertEquals(List.of(task1, task2), fileBackedTasksManager.getAllTasks());
         assertEquals(List.of(subtask1, subtask2, subtask3), fileBackedTasksManager.getAllSubtasks());
         assertEquals(List.of(epic1, epic2), fileBackedTasksManager.getAllEpics());
@@ -41,16 +39,7 @@ class LoaderTaskManagerTest {
     @Test
     void loadFromFileEmptyHistory() {
         FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE_WITH_EMPTY_HISTORY.toFile());
-        Task task1 = Task.fromArrayString(new String[]{"5", "TASK", "task1", "NEW", "test1", "null", "-1"});
-        Task task2 = Task.fromArrayString(new String[]{"6", "TASK", "task2", "NEW", "test2", "null", "-1"});
-        Epic epic1 = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
-        Epic epic2 = Epic.fromArrayString(new String[]{"1", "EPIC", "epic2", "NEW", "test2", "null", "-1"});
-        Subtask subtask1 = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
-        Subtask subtask2 = Subtask.fromArrayString(new String[]{"3", "SUBTASK", "subtask2", "NEW", "test2", "null", "-1", "0"});
-        Subtask subtask3 = Subtask.fromArrayString(new String[]{"4", "SUBTASK", "subtask3", "NEW", "test3", "null", "-1", "0"});
-        epic1.addSubtask(subtask1);
-        epic1.addSubtask(subtask2);
-        epic1.addSubtask(subtask3);
+        initAllTasks();
         assertEquals(List.of(task1, task2), fileBackedTasksManager.getAllTasks());
         assertEquals(List.of(subtask1, subtask2, subtask3), fileBackedTasksManager.getAllSubtasks());
         assertEquals(List.of(epic1, epic2), fileBackedTasksManager.getAllEpics());
@@ -64,5 +53,18 @@ class LoaderTaskManagerTest {
         assertEquals(List.of(), fileBackedTasksManager.getAllSubtasks());
         assertEquals(List.of(), fileBackedTasksManager.getAllEpics());
         assertEquals(List.of(), fileBackedTasksManager.getHistory());
+    }
+
+    private void initAllTasks() {
+        task1 = Task.fromArrayString(new String[]{"5", "TASK", "task1", "NEW", "test1", "null", "null"});
+        task2 = Task.fromArrayString(new String[]{"6", "TASK", "task2", "NEW", "test2", "null", "null"});
+        epic1 = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "null"});
+        epic2 = Epic.fromArrayString(new String[]{"1", "EPIC", "epic2", "NEW", "test2", "null", "null"});
+        subtask1 = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "null", "0"});
+        subtask2 = Subtask.fromArrayString(new String[]{"3", "SUBTASK", "subtask2", "NEW", "test2", "null", "null", "0"});
+        subtask3 = Subtask.fromArrayString(new String[]{"4", "SUBTASK", "subtask3", "NEW", "test3", "null", "null", "0"});
+        epic1.addSubtask(subtask1);
+        epic1.addSubtask(subtask2);
+        epic1.addSubtask(subtask3);
     }
 }

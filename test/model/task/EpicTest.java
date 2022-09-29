@@ -8,12 +8,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class EpicTest {
+    private final String[] correctInitEpic = new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "null"};
+    private final String[] correctInitSubtask = new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "null", "0"};
 
     @Test
     void addAndGetSubtasks() {
-        Epic epic = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
+        Epic epic = Epic.fromArrayString(correctInitEpic);
         assertTrue(epic.getSubtasks().isEmpty());
-        Subtask subtask = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
+        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertFalse(epic.getSubtasks().isEmpty());
         assertEquals(List.of(subtask), epic.getSubtasks());
@@ -21,8 +23,8 @@ class EpicTest {
 
     @Test
     void updateSubtask() {
-        Epic epic = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
-        Subtask subtask = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
+        Epic epic = Epic.fromArrayString(correctInitEpic);
+        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertEquals(List.of(subtask), epic.getSubtasks());
 
@@ -33,8 +35,8 @@ class EpicTest {
 
     @Test
     void removeSubtask() {
-        Epic epic = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
-        Subtask subtask = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
+        Epic epic = Epic.fromArrayString(correctInitEpic);
+        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertFalse(epic.getSubtasks().isEmpty());
         epic.removeSubtask(subtask);
@@ -43,8 +45,8 @@ class EpicTest {
 
     @Test
     void updateStatus() {
-        Epic epic = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
-        Subtask subtask = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
+        Epic epic = Epic.fromArrayString(correctInitEpic);
+        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertEquals(Status.NEW, epic.getStatus());
 
@@ -59,8 +61,8 @@ class EpicTest {
 
     @Test
     void clearSubtasks() {
-        Epic epic = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
-        Subtask subtask = Subtask.fromArrayString(new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "-1", "0"});
+        Epic epic = Epic.fromArrayString(correctInitEpic);
+        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertFalse(epic.getSubtasks().isEmpty());
         epic.clearSubtasks();
@@ -72,10 +74,10 @@ class EpicTest {
         Epic tempNullIncorrectArrayString = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW"});
         assertNull(tempNullIncorrectArrayString);
 
-        Epic tempNullIndex = Epic.fromArrayString(new String[]{"a0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
+        Epic tempNullIndex = Epic.fromArrayString(new String[]{"a0", "EPIC", "epic1", "NEW", "test1", "null", "null"});
         assertNull(tempNullIndex);
 
-        Epic temp = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "-1"});
+        Epic temp = Epic.fromArrayString(correctInitEpic);
         assertNotNull(temp);
         assertEquals(0, temp.getId());
         assertEquals("epic1", temp.getTitle());

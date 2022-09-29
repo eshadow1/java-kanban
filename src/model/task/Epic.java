@@ -17,7 +17,7 @@ public class Epic extends Task {
     }
 
     private Epic(Integer id, String title, String description, Status status,
-                 LocalDateTime startTime, int durationMinutes) {
+                 LocalDateTime startTime, Integer durationMinutes) {
         super(id, title, description, status, startTime, durationMinutes);
         this.subtasks = new HashMap<>();
         this.type = EPIC;
@@ -76,19 +76,22 @@ public class Epic extends Task {
     static public Epic fromArrayString(String[] value) {
         if (value.length != SIZE_EPIC_CONFIG_CSV
                 || !checkedCorrectId(value[SchemeCsv.ID.index])
-                || !checkedCorrectId(value[SchemeCsv.DURATION.index])) {
+                || (!"null".equals(value[SchemeCsv.DURATION.index])
+                && !checkedCorrectId(value[SchemeCsv.DURATION.index]))) {
             return null;
         }
         LocalDateTime localDateTime = "null".equals(value[SchemeCsv.DATETIME.index]) ? null
                 : LocalDateTime.parse(value[SchemeCsv.DATETIME.index]);
+        Integer minutes = "null".equals(value[SchemeCsv.DURATION.index]) ? null
+                : Integer.parseInt(value[SchemeCsv.DURATION.index]);
+
         return new Epic(
                 Integer.parseInt(value[SchemeCsv.ID.index]),
                 value[SchemeCsv.NAME.index],
                 value[SchemeCsv.DESCRIPTION.index],
                 Status.valueOf(value[SchemeCsv.STATUS.index]),
                 localDateTime,
-                Integer.parseInt(value[SchemeCsv.DURATION.index])
-        );
+                minutes);
     }
 
     private void updateStatus() {
@@ -112,8 +115,8 @@ public class Epic extends Task {
 
     private void updateDateTime() {
         if (subtasks.isEmpty()) {
-            setStartTime(DEFAULT_START_TIME);
-            setDurationMinutes(DEFAULT_DURATION);
+            setStartTime(null);
+            setDurationMinutes(null);
             return;
         }
 
@@ -139,7 +142,7 @@ public class Epic extends Task {
         }
         setStartTime(startTime);
         if (startTime == null || endTime == null) {
-            setDurationMinutes(DEFAULT_DURATION);
+            setDurationMinutes(null);
         } else {
             setDurationMinutes(Duration.between(startTime, endTime));
         }

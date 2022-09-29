@@ -80,74 +80,122 @@ public class Test6 {
         System.out.println(taskManager.getTask(testTask1.getId()));
         List<Task> history = taskManager.getHistory();
         System.out.println(history);
-        if (history.size() != 1) isSuccessTest = false;
+        if (history.size() != 1) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getTask(testTask2.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 2) isSuccessTest = false;
+        if (history.size() != 2) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getTask(testTask1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 2) isSuccessTest = false;
+        if (history.size() != 2) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getTask(testTask3.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 3) isSuccessTest = false;
+        if (history.size() != 3) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getEpic(testEpic2.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 4) isSuccessTest = false;
+        if (history.size() != 4) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getEpic(testEpic1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 5) isSuccessTest = false;
+        if (history.size() != 5) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getSubtask(testSubtask2.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 6) isSuccessTest = false;
+        if (history.size() != 6) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getSubtask(testSubtask1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 7) isSuccessTest = false;
+        if (history.size() != 7) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getSubtask(testSubtask2.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 7) isSuccessTest = false;
+        if (history.size() != 7) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getSubtask(testSubtask3.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 8) isSuccessTest = false;
+        if (history.size() != 8) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getSubtask(testSubtask1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 8) isSuccessTest = false;
+        if (history.size() != 8) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
         System.out.println(taskManager.getSubtask(testSubtask1.getId()));
         history = taskManager.getHistory();
         System.out.println(history);
-        if (history.size() != 8) isSuccessTest = false;
+        if (history.size() != 8) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
         assertTrue(isSuccessTest);
