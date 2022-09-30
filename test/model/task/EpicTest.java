@@ -1,5 +1,8 @@
 package model.task;
 
+import model.data_test.CorrectData;
+import model.data_test.IncorrentData;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,14 +11,23 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class EpicTest {
-    private final String[] correctInitEpic = new String[]{"0", "EPIC", "epic1", "NEW", "test1", "null", "null"};
-    private final String[] correctInitSubtask = new String[]{"2", "SUBTASK", "subtask1", "NEW", "test1", "null", "null", "0"};
+    private Epic epic;
+    private Subtask subtask;
+
+    @BeforeEach
+    void beforeEach() {
+        epic = Epic.fromArrayString(CorrectData.correctInitEpic);
+        subtask = Subtask.fromArrayString(CorrectData.correctInitSubtask);
+    }
+
+    @Test
+    void getEmptySubtasks() {
+        assertTrue(epic.getSubtasks().isEmpty());
+    }
 
     @Test
     void addAndGetSubtasks() {
-        Epic epic = Epic.fromArrayString(correctInitEpic);
         assertTrue(epic.getSubtasks().isEmpty());
-        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertFalse(epic.getSubtasks().isEmpty());
         assertEquals(List.of(subtask), epic.getSubtasks());
@@ -23,11 +35,8 @@ class EpicTest {
 
     @Test
     void updateSubtask() {
-        Epic epic = Epic.fromArrayString(correctInitEpic);
-        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertEquals(List.of(subtask), epic.getSubtasks());
-
         subtask.setStatus(Status.IN_PROGRESS);
         epic.updateSubtask(subtask);
         assertEquals(List.of(subtask), epic.getSubtasks());
@@ -35,8 +44,6 @@ class EpicTest {
 
     @Test
     void removeSubtask() {
-        Epic epic = Epic.fromArrayString(correctInitEpic);
-        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertFalse(epic.getSubtasks().isEmpty());
         epic.removeSubtask(subtask);
@@ -44,16 +51,19 @@ class EpicTest {
     }
 
     @Test
-    void updateStatus() {
-        Epic epic = Epic.fromArrayString(correctInitEpic);
-        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
+    void updateInProgressStatus() {
         epic.addSubtask(subtask);
         assertEquals(Status.NEW, epic.getStatus());
 
         subtask.setStatus(Status.IN_PROGRESS);
         epic.updateSubtask(subtask);
         assertEquals(Status.IN_PROGRESS, epic.getStatus());
+    }
 
+    @Test
+    void updateDoneStatus() {
+        epic.addSubtask(subtask);
+        assertEquals(Status.NEW, epic.getStatus());
         subtask.setStatus(Status.DONE);
         epic.updateSubtask(subtask);
         assertEquals(Status.DONE, epic.getStatus());
@@ -61,8 +71,6 @@ class EpicTest {
 
     @Test
     void clearSubtasks() {
-        Epic epic = Epic.fromArrayString(correctInitEpic);
-        Subtask subtask = Subtask.fromArrayString(correctInitSubtask);
         epic.addSubtask(subtask);
         assertFalse(epic.getSubtasks().isEmpty());
         epic.clearSubtasks();
@@ -70,18 +78,24 @@ class EpicTest {
     }
 
     @Test
-    void getFromArrayString() {
-        Epic tempNullIncorrectArrayString = Epic.fromArrayString(new String[]{"0", "EPIC", "epic1", "NEW"});
-        assertNull(tempNullIncorrectArrayString);
-
-        Epic tempNullIndex = Epic.fromArrayString(new String[]{"a0", "EPIC", "epic1", "NEW", "test1", "null", "null"});
-        assertNull(tempNullIndex);
-
-        Epic temp = Epic.fromArrayString(correctInitEpic);
+    void getFromCorrectArrayString() {
+        Epic temp = Epic.fromArrayString(CorrectData.correctInitEpic);
         assertNotNull(temp);
         assertEquals(0, temp.getId());
         assertEquals("epic1", temp.getTitle());
         assertEquals(Status.NEW, temp.getStatus());
         assertEquals("test1", temp.getDescription());
+    }
+
+    @Test
+    void getFromNullIncorrectArrayString() {
+        Epic tempNullIncorrectArrayString = Epic.fromArrayString(IncorrentData.incorrectArrayStringInitEpic);
+        assertNull(tempNullIncorrectArrayString);
+    }
+
+    @Test
+    void getFromNullIndexIncorrectArrayString() {
+        Epic tempNullIndex = Epic.fromArrayString(IncorrentData.incorrectIndexStringInitEpic);
+        assertNull(tempNullIndex);
     }
 }

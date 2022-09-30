@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Test2 {
+public class DeleteTaskByIdTest {
     @BeforeEach
     public void beforeEach() {
         GeneratorIdTask.setStartPosition(GeneratorIdTask.START_GENERATOR);

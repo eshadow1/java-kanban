@@ -1,6 +1,7 @@
 package controller.history;
 
 import controller.Manager;
+import model.data_test.CorrectData;
 import model.task.Task;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ class HistoryFormatterTest {
     @Test
     void getHistoryToString() {
         final HistoryManager historyManager = Manager.getDefaultHistory();
-        Task temp = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null", "null"});
+        Task temp = Task.fromArrayString(CorrectData.correctInitTask);
         historyManager.add(temp);
         assertEquals("35", HistoryFormatter.historyToString(historyManager));
     }

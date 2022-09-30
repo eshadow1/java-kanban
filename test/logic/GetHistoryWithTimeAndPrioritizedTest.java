@@ -11,13 +11,15 @@ import model.task.Task;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Test9 {
+public class GetHistoryWithTimeAndPrioritizedTest {
     private static final Path RESOURCES_PATH = Paths.get(System.getProperty("user.dir"), "resources");
     private static final Path DEFAULT_SAVE_FILE = Paths.get(String.valueOf(RESOURCES_PATH), "default_save.csv");
 
@@ -91,6 +93,7 @@ public class Test9 {
         System.out.println(taskManager.getTask(testTask1.getId()));
 
         System.out.println(taskManager.getPrioritizedTasks());
+        assertEquals(List.of(testSubtask1, testTask1, testSubtask2, testTask2, testSubtask3, testEpic2), taskManager.getPrioritizedTasks());
 
         assertTrue(isSuccessTest);
     }

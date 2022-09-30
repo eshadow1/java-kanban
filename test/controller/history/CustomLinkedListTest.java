@@ -1,5 +1,6 @@
 package controller.history;
 
+import model.data_test.CorrectData;
 import model.task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class CustomLinkedListTest {
     @BeforeEach
     public void beforeEach() {
         history = new CustomLinkedList<>();
-        task = Task.fromArrayString(new String[]{"35", "TASK", "task1", "NEW", "test1", "null", "null"});
+        task = Task.fromArrayString(CorrectData.correctInitTask);
     }
 
     @Test

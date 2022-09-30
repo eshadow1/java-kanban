@@ -8,8 +8,6 @@ import model.task.Epic;
 import model.task.Subtask;
 import model.task.Task;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,23 +15,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Test8 {
-    private static final Path RESOURCES_PATH = Paths.get(System.getProperty("user.dir"), "resources");
-    private static final Path DEFAULT_SAVE_FILE = Paths.get(String.valueOf(RESOURCES_PATH), "default_save.csv");
-
+public class GetHistoryWithDeleteTasksTest {
     @BeforeEach
     public void beforeEach() {
         GeneratorIdTask.setStartPosition(GeneratorIdTask.START_GENERATOR);
-        DEFAULT_SAVE_FILE.toFile().delete();
     }
 
     @Test
-    public void getHistoryWithSave() {
+    public void getHistoryWithRemoveTask() {
         boolean isSuccessTest = true;
-        System.out.println("Восьмой тест: просмотр истории из записи");
+        System.out.println("Седьмой тест: просмотр истории запросов задач с удалением задач");
         Epic testEpic1 = new Epic("epic1", "test1");
         Epic testEpic2 = new Epic("epic2", "test2");
-        TaskManager taskManager = Manager.getFileBacked();
+        TaskManager taskManager = Manager.getDefault();
         try {
             Epic successTestEpic1 = taskManager.create(testEpic1);
         } catch (TaskManagerException e) {
@@ -78,27 +72,97 @@ public class Test8 {
             System.out.println(e.getMessage());
         }
 
-        System.out.println(taskManager.getTask(testTask1.getId()));
-        System.out.println(taskManager.getTask(testTask2.getId()));
-        System.out.println(taskManager.getTask(testTask1.getId()));
-        System.out.println(taskManager.getSubtask(testSubtask2.getId()));
-        System.out.println(taskManager.getEpic(testEpic1.getId()));
-        System.out.println(taskManager.getTask(testTask1.getId()));
-
-        TaskManager taskManager2 = Manager.getFileBacked();
+        System.out.println("Empty history");
         List<Task> history = taskManager.getHistory();
-        List<Task> history2 = taskManager2.getHistory();
-        System.out.println("Первоначальная: " + history);
-        System.out.println("После загрузки: " + history2);
-        if (history.size() != history2.size()) {
+        System.out.println(history);
+        if (history.size() != 0) {
             isSuccessTest = false;
         }
         assertTrue(isSuccessTest);
 
-        if (!taskManager2.getTask(testTask1.getId()).equals(taskManager.getTask(testTask1.getId()))) {
+        System.out.println(taskManager.getTask(testTask1.getId()));
+        history = taskManager.getHistory();
+        System.out.println(history);
+        if (history.size() != 1) {
             isSuccessTest = false;
         }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println(taskManager.getTask(testTask2.getId()));
+        history = taskManager.getHistory();
+        if (history.size() != 2) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println(taskManager.getTask(testTask1.getId()));
+        history = taskManager.getHistory();
+        if (history.size() != 2) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println(taskManager.getSubtask(testSubtask2.getId()));
+        history = taskManager.getHistory();
+        if (history.size() != 3) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println(taskManager.getEpic(testEpic1.getId()));
+        history = taskManager.getHistory();
+        if (history.size() != 4) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println(taskManager.getTask(testTask1.getId()));
+        history = taskManager.getHistory();
+        if (history.size() != 4) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println("Remove task " + testTask2.getId());
+        Task testTaskRemove = taskManager.removeTask(testTask2.getId());
+        history = taskManager.getHistory();
+        if (history.size() != 3) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println("Remove epic " + testEpic1.getId());
+        taskManager.removeEpic(testEpic1.getId());
+        history = taskManager.getHistory();
+        if (history.size() != 1) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
         assertTrue(isSuccessTest);
     }
-
 }

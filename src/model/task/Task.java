@@ -190,6 +190,10 @@ public class Task implements Comparable<Task> {
             return 1;
         }
 
+        if(this.getStartTime().equals(o.getStartTime())) {
+            return this.getTitle().compareTo(o.getTitle());
+        }
+
         return this.getStartTime().compareTo(o.getStartTime());
     }
 }

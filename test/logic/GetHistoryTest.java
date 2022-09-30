@@ -15,16 +15,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Test7 {
+public class GetHistoryTest {
     @BeforeEach
     public void beforeEach() {
         GeneratorIdTask.setStartPosition(GeneratorIdTask.START_GENERATOR);
     }
-
     @Test
-    public void getHistoryWithRemoveTask() {
+    public void getHistory() {
         boolean isSuccessTest = true;
-        System.out.println("Седьмой тест: просмотр истории запросов задач с удалением задач");
+        System.out.println("Шестой тест: просмотр истории запросов задач");
         Epic testEpic1 = new Epic("epic1", "test1");
         Epic testEpic2 = new Epic("epic2", "test2");
         TaskManager taskManager = Manager.getDefault();
@@ -41,7 +40,7 @@ public class Test7 {
 
         Subtask testSubtask1 = new Subtask("subtask1", "test1", testEpic1.getId());
         Subtask testSubtask2 = new Subtask("subtask2", "test2", testEpic1.getId());
-        Subtask testSubtask3 = new Subtask("subtask3", "test3", testEpic1.getId());
+        Subtask testSubtask3 = new Subtask("subtask3", "test3", testEpic2.getId());
         try {
             Subtask successTestSubtask1 = taskManager.create(testSubtask1);
         } catch (TaskManagerException e) {
@@ -60,6 +59,7 @@ public class Test7 {
 
         Task testTask1 = new Task("task1", "test1");
         Task testTask2 = new Task("task2", "test2");
+        Task testTask3 = new Task("task3", "test3");
 
         try {
             Task successTestTask1 = taskManager.create(testTask1);
@@ -71,17 +71,14 @@ public class Test7 {
         } catch (TaskManagerException e) {
             System.out.println(e.getMessage());
         }
-
-        System.out.println("Empty history");
-        List<Task> history = taskManager.getHistory();
-        System.out.println(history);
-        if (history.size() != 0) {
-            isSuccessTest = false;
+        try {
+            Task successTestTask3 = taskManager.create(testTask3);
+        } catch (TaskManagerException e) {
+            System.out.println(e.getMessage());
         }
-        assertTrue(isSuccessTest);
 
         System.out.println(taskManager.getTask(testTask1.getId()));
-        history = taskManager.getHistory();
+        List<Task> history = taskManager.getHistory();
         System.out.println(history);
         if (history.size() != 1) {
             isSuccessTest = false;
@@ -111,9 +108,19 @@ public class Test7 {
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
-        System.out.println(taskManager.getSubtask(testSubtask2.getId()));
+        System.out.println(taskManager.getTask(testTask3.getId()));
         history = taskManager.getHistory();
         if (history.size() != 3) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println(taskManager.getEpic(testEpic2.getId()));
+        history = taskManager.getHistory();
+        if (history.size() != 4) {
             isSuccessTest = false;
         }
         assertTrue(isSuccessTest);
@@ -123,7 +130,7 @@ public class Test7 {
 
         System.out.println(taskManager.getEpic(testEpic1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 4) {
+        if (history.size() != 5) {
             isSuccessTest = false;
         }
         assertTrue(isSuccessTest);
@@ -131,9 +138,9 @@ public class Test7 {
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
-        System.out.println(taskManager.getTask(testTask1.getId()));
+        System.out.println(taskManager.getSubtask(testSubtask2.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 4) {
+        if (history.size() != 6) {
             isSuccessTest = false;
         }
         assertTrue(isSuccessTest);
@@ -141,10 +148,9 @@ public class Test7 {
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
-        System.out.println("Remove task " + testTask2.getId());
-        Task testTaskRemove = taskManager.removeTask(testTask2.getId());
+        System.out.println(taskManager.getSubtask(testSubtask1.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 3) {
+        if (history.size() != 7) {
             isSuccessTest = false;
         }
         assertTrue(isSuccessTest);
@@ -152,10 +158,9 @@ public class Test7 {
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
-        System.out.println("Remove epic " + testEpic1.getId());
-        taskManager.removeEpic(testEpic1.getId());
+        System.out.println(taskManager.getSubtask(testSubtask2.getId()));
         history = taskManager.getHistory();
-        if (history.size() != 1) {
+        if (history.size() != 7) {
             isSuccessTest = false;
         }
         assertTrue(isSuccessTest);
@@ -163,6 +168,36 @@ public class Test7 {
         for (Task task : history) System.out.print(task.getId() + " ");
         System.out.println();
 
+        System.out.println(taskManager.getSubtask(testSubtask3.getId()));
+        history = taskManager.getHistory();
+        if (history.size() != 8) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println(taskManager.getSubtask(testSubtask1.getId()));
+        history = taskManager.getHistory();
+        if (history.size() != 8) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
+
+        System.out.println(taskManager.getSubtask(testSubtask1.getId()));
+        history = taskManager.getHistory();
+        System.out.println(history);
+        if (history.size() != 8) {
+            isSuccessTest = false;
+        }
+        assertTrue(isSuccessTest);
+
+        for (Task task : history) System.out.print(task.getId() + " ");
+        System.out.println();
         assertTrue(isSuccessTest);
     }
 }
