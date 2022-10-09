@@ -1,7 +1,7 @@
 package model.task;
 
 import model.data_test.CorrectData;
-import model.data_test.IncorrentData;
+import model.data_test.IncorrectData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,13 +22,13 @@ class TaskTest {
 
     @Test
     void getFromNullIncorrectArrayString() {
-        Task tempNullIncorrectArrayString = Task.fromArrayString(IncorrentData.incorrectArrayStringInitTask);
+        Task tempNullIncorrectArrayString = Task.fromArrayString(IncorrectData.incorrectArrayStringInitTask);
         assertNull(tempNullIncorrectArrayString);
     }
 
     @Test
     void getFromNullIndexIncorrectArrayString() {
-        Task tempNullIndex = Task.fromArrayString(IncorrentData.incorrectIndexStringInitTask);
+        Task tempNullIndex = Task.fromArrayString(IncorrectData.incorrectIndexStringInitTask);
         assertNull(tempNullIndex);
     }
 }

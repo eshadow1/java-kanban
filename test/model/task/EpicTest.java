@@ -1,7 +1,7 @@
 package model.task;
 
 import model.data_test.CorrectData;
-import model.data_test.IncorrentData;
+import model.data_test.IncorrectData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -89,13 +89,13 @@ class EpicTest {
 
     @Test
     void getFromNullIncorrectArrayString() {
-        Epic tempNullIncorrectArrayString = Epic.fromArrayString(IncorrentData.incorrectArrayStringInitEpic);
+        Epic tempNullIncorrectArrayString = Epic.fromArrayString(IncorrectData.incorrectArrayStringInitEpic);
         assertNull(tempNullIncorrectArrayString);
     }
 
     @Test
     void getFromNullIndexIncorrectArrayString() {
-        Epic tempNullIndex = Epic.fromArrayString(IncorrentData.incorrectIndexStringInitEpic);
+        Epic tempNullIndex = Epic.fromArrayString(IncorrectData.incorrectIndexStringInitEpic);
         assertNull(tempNullIndex);
     }
 }

@@ -1,14 +1,19 @@
-import controller.server.HttpTaskServer;
+package controller.server;
+
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-public class Main {
-    public static void main(String[] args) {
+class HttpTaskServerTest {
+
+    @Test
+    void start() {
         try {
             HttpTaskServer httpTaskServer = new HttpTaskServer();
             httpTaskServer.start();
         } catch (IOException error) {
 
         }
+
     }
 }
