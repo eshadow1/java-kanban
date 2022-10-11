@@ -8,15 +8,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private static final String CONFIG_CSV = "id,type,name,status,description,datetime,duration,epic\n";
     private final File saveFile;
 
-    public FileBackedTasksManager(File fileName) {
-        saveFile = fileName;
+    public FileBackedTasksManager(Path fileName) {
+        saveFile = fileName.toFile();
     }
 
+    @Override
     public void clearTasks() {
         super.clearTasks();
         this.save();
@@ -148,26 +150,52 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return epics.put(epic.getId(), epic);
     }
 
-    private void save() {
+    public Task getFromStringAndAddIfNotNull(String value) {
+        String[] temp = value.split(",");
+        switch (Type.valueOf(temp[SchemeCsv.TYPE.index])) {
+            case TASK:
+                var task = Task.fromArrayString(temp);
+                add(task);
+                return task;
+            case SUBTASK:
+                var subtask = Subtask.fromArrayString(temp);
+                add(subtask);
+                return subtask;
+            case EPIC:
+                var epic = Epic.fromArrayString(temp);
+                add(epic);
+                return epic;
+            default:
+                return null;
+        }
+    }
+
+    protected void save() {
         if (saveFile == null) {
             throw new ManagerSaveException("NullPointerException");
         }
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile))) {
             bufferedWriter.write(CONFIG_CSV);
-            for (var task : getAllTasks()) {
-                bufferedWriter.write(task.toString() + "\n");
-            }
-            for (var epic : getAllEpics()) {
-                bufferedWriter.write(epic.toString() + "\n");
-            }
-            for (var subtask : getAllSubtasks()) {
-                bufferedWriter.write(subtask.toString() + "\n");
-            }
-            bufferedWriter.write("\n");
-            bufferedWriter.write(HistoryFormatter.historyToString(historyManager));
+            bufferedWriter.write(createDataSave());
         } catch (IOException error) {
             throw new ManagerSaveException(error.getMessage());
         }
+    }
+
+    protected String createDataSave() {
+        StringBuilder data = new StringBuilder();
+        for (var task : getAllTasks()) {
+            data.append(task.toString()).append("\n");
+        }
+        for (var epic : getAllEpics()) {
+            data.append(epic.toString()).append("\n");
+        }
+        for (var subtask : getAllSubtasks()) {
+            data.append(subtask.toString()).append("\n");
+        }
+        data.append("\n");
+        data.append(HistoryFormatter.historyToString(historyManager));
+        return data.toString();
     }
 }

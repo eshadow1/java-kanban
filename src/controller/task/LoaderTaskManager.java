@@ -4,30 +4,33 @@ import controller.history.HistoryFormatter;
 import model.task.*;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class LoaderTaskManager {
     private LoaderTaskManager() {
     }
+    static public HTTPTaskManager loadFromHTTP(URI uri, String key) {
+        HTTPTaskManager httpTaskManager = new HTTPTaskManager(uri);
+        httpTaskManager.load(key);
+        return httpTaskManager;
+    }
 
-    static public FileBackedTasksManager loadFromFile(File file) {
+    static public FileBackedTasksManager loadFromFile(Path file) {
         try {
-            Path testFile = Paths.get(file.toString());
-            if (!Files.exists(testFile)) {
-                Files.createFile(testFile);
+            if (!Files.exists(file)) {
+                Files.createFile(file);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file.toFile()))) {
             int maxIdTask = 0;
 
             if (bufferedReader.ready()) {
@@ -38,9 +41,9 @@ public class LoaderTaskManager {
                 if (temp.isEmpty()) {
                     break;
                 } else {
-                    Task task = getFromStringAndAddIfNotNull(fileBackedTasksManager, temp);
+                    Task task = fileBackedTasksManager.getFromStringAndAddIfNotNull(temp);
                     if (task != null && maxIdTask < task.getId()) {
-                        maxIdTask = task.getId();
+                        maxIdTask = task.getId()  + 1;
                     }
                 }
             }
@@ -62,26 +65,5 @@ public class LoaderTaskManager {
         }
 
         return fileBackedTasksManager;
-    }
-
-    static private Task getFromStringAndAddIfNotNull(FileBackedTasksManager fileBackedTasksManager,
-                                                     String value) {
-        String[] temp = value.split(",");
-        switch (Type.valueOf(temp[SchemeCsv.TYPE.index])) {
-            case TASK:
-                var task = Task.fromArrayString(temp);
-                fileBackedTasksManager.add(task);
-                return task;
-            case SUBTASK:
-                var subtask = Subtask.fromArrayString(temp);
-                fileBackedTasksManager.add(subtask);
-                return subtask;
-            case EPIC:
-                var epic = Epic.fromArrayString(temp);
-                fileBackedTasksManager.add(epic);
-                return epic;
-            default:
-                return null;
-        }
     }
 }

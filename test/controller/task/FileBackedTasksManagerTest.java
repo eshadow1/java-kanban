@@ -31,7 +31,7 @@ class FileBackedTasksManagerTest {
 
     @BeforeEach
     public void beforeEach() {
-        taskManager = new FileBackedTasksManager(DEFAULT_SAVE_FILE.toFile());
+        taskManager = new FileBackedTasksManager(DEFAULT_SAVE_FILE);
         GeneratorIdTask.setStartPosition(0);
         initAllTasks();
     }

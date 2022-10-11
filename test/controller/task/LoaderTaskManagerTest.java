@@ -28,7 +28,7 @@ class LoaderTaskManagerTest {
 
     @Test
     void loadFromFile() {
-        FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE.toFile());
+        FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE);
         initAllTasks();
         assertEquals(List.of(task1, task2), fileBackedTasksManager.getAllTasks());
         assertEquals(List.of(subtask1, subtask2, subtask3), fileBackedTasksManager.getAllSubtasks());
@@ -38,7 +38,7 @@ class LoaderTaskManagerTest {
 
     @Test
     void loadFromFileEmptyHistory() {
-        FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE_WITH_EMPTY_HISTORY.toFile());
+        FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE_WITH_EMPTY_HISTORY);
         initAllTasks();
         assertEquals(List.of(task1, task2), fileBackedTasksManager.getAllTasks());
         assertEquals(List.of(subtask1, subtask2, subtask3), fileBackedTasksManager.getAllSubtasks());
@@ -48,7 +48,7 @@ class LoaderTaskManagerTest {
 
     @Test
     void loadFromFileEmpty() {
-        FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE_WITH_EMPTY.toFile());
+        FileBackedTasksManager fileBackedTasksManager = LoaderTaskManager.loadFromFile(DEFAULT_SAVE_FILE_WITH_EMPTY);
         assertEquals(List.of(), fileBackedTasksManager.getAllTasks());
         assertEquals(List.of(), fileBackedTasksManager.getAllSubtasks());
         assertEquals(List.of(), fileBackedTasksManager.getAllEpics());
