@@ -1,8 +1,10 @@
 package controller.server.handler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import controller.server.handler.adapter.TaskAdapter;
 import controller.task.TaskManager;
 import controller.task.TaskManagerException;
 import model.handler.PairAnswer;
@@ -22,7 +24,9 @@ public class TaskHandler implements HttpHandler {
 
     public TaskHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
-        gson = new Gson();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(Task.class, new TaskAdapter())
+                .create();
     }
 
     @Override

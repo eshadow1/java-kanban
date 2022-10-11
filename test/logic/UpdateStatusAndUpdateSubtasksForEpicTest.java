@@ -27,7 +27,8 @@ public class UpdateStatusAndUpdateSubtasksForEpicTest {
         System.out.println("Пятый тест: изменение статуса и обновление подзадачи");
         Epic testEpic1 = new Epic("epic1", "test1");
         Epic testEpic2 = new Epic("epic2", "test2");
-        TaskManager taskManager = Manager.getDefault();
+        TaskManager taskManager = Manager.getInMemoryTaskManager();
+
         try {
             Epic successTestEpic1 = taskManager.create(testEpic1);
             if (successTestEpic1 != null) isSuccessTest = false;

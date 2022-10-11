@@ -26,7 +26,7 @@ public class GetHistoryTest {
         System.out.println("Шестой тест: просмотр истории запросов задач");
         Epic testEpic1 = new Epic("epic1", "test1");
         Epic testEpic2 = new Epic("epic2", "test2");
-        TaskManager taskManager = Manager.getDefault();
+        TaskManager taskManager = Manager.getInMemoryTaskManager();
         try {
             Epic successTestEpic1 = taskManager.create(testEpic1);
         } catch (TaskManagerException e) {

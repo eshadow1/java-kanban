@@ -2,6 +2,7 @@ package controller;
 
 import controller.history.HistoryManager;
 import controller.history.InMemoryHistoryManager;
+import controller.task.InMemoryTaskManager;
 import controller.task.LoaderTaskManager;
 import controller.task.TaskManager;
 
@@ -35,6 +36,10 @@ public class Manager {
 
     public static TaskManager getDefault() {
         return LoaderTaskManager.loadFromHTTP(DEFAULT_SAVE_HTTP, DEFAULT_SAVE_KEY);
+    }
+
+    public static TaskManager getInMemoryTaskManager() {
+        return new InMemoryTaskManager();
     }
 
     public static TaskManager getFileBacked() {

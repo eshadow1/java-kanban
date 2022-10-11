@@ -1,8 +1,10 @@
 package controller.server.handler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import controller.server.handler.adapter.SubtaskAdapter;
 import controller.task.TaskManager;
 import controller.task.TaskManagerException;
 import model.handler.PairAnswer;
@@ -22,7 +24,9 @@ public class SubtaskHandler implements HttpHandler {
     public SubtaskHandler(TaskManager taskManager) {
 
         this.taskManager = taskManager;
-        gson = new Gson();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(Subtask.class, new SubtaskAdapter())
+                .create();
     }
 
     @Override
@@ -30,10 +34,8 @@ public class SubtaskHandler implements HttpHandler {
         String method = httpExchange.getRequestMethod();
         String query = httpExchange.getRequestURI().getQuery();
         String path = httpExchange.getRequestURI().getPath();
-        String[] paths = path.split("/");
         InputStream inputStream = httpExchange.getRequestBody();
         String body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
-
 
         String response = "";
         Integer statusCode = 200;

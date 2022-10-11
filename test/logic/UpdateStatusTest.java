@@ -26,7 +26,7 @@ public class UpdateStatusTest {
         Task testTask1 = new Task("task1", "test1");
         Task testTask2 = new Task("task2", "test2");
         Epic testEpic1 = new Epic("epic1", "test1");
-        TaskManager taskManager = Manager.getDefault();
+        TaskManager taskManager = Manager.getInMemoryTaskManager();
         try {
             Task successTestTask1 = taskManager.create(testTask1);
             if (successTestTask1 != null) isSuccessTest = false;

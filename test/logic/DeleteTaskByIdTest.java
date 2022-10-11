@@ -22,7 +22,7 @@ public class DeleteTaskByIdTest {
         boolean isSuccessTest = true;
         System.out.println("Второй тест: удаление по ID");
         Epic testEpic1 = new Epic("epic1", "test1");
-        TaskManager taskManager = Manager.getDefault();
+        TaskManager taskManager = Manager.getInMemoryTaskManager();
         try {
             Epic successTestEpic1 = taskManager.create(testEpic1);
             if (successTestEpic1 != null) isSuccessTest = false;

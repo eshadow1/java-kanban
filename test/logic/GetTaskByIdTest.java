@@ -26,7 +26,7 @@ public class GetTaskByIdTest {
         Task testTask2 = new Task("task2", "test2");
         Epic testEpic1 = new Epic("epic1", "test1");
         Epic testEpic2 = new Epic("epic2", "test2");
-        TaskManager taskManager = Manager.getDefault();
+        TaskManager taskManager = Manager.getInMemoryTaskManager();
         try {
             Task successTestTask1 = taskManager.create(testTask1);
             if (successTestTask1 != null) isSuccessTest = false;

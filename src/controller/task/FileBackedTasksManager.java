@@ -15,7 +15,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private final File saveFile;
 
     public FileBackedTasksManager(Path fileName) {
-        saveFile = fileName.toFile();
+        saveFile = (fileName != null) ? fileName.toFile() : null;
     }
 
     @Override

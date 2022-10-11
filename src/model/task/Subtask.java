@@ -22,7 +22,7 @@ public class Subtask extends Task {
     }
 
     public Subtask(String title, String description, Status status, LocalDateTime startTime,
-                   int durationMinutes, Integer idParentEpic) {
+                   Integer durationMinutes, Integer idParentEpic) {
         super(title, description, status, startTime, durationMinutes);
         this.idParentEpic = idParentEpic;
         this.type = SUBTASK;
