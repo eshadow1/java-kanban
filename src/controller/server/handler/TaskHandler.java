@@ -53,14 +53,19 @@ public class TaskHandler implements HttpHandler {
             case "POST":
                 Task newTask = gson.fromJson(body, Task.class);
                 try {
-                    taskManager.create(newTask);
-                    response = "Задача добавлена!";
+                    if (taskManager.create(newTask) != null || taskManager.create(newTask).getId() == null) {
+                        statusCode = 400;
+                        response = "Задача не добавлена!";
+                    } else {
+                        response = "Задача добавлена!";
+                    }
                 } catch (TaskManagerException errorCreate) {
                     try {
                         taskManager.update(newTask);
                         response = "Задача обновлена!";
                     } catch (TaskManagerException errorUpdate) {
                         statusCode = 400;
+                        response = "Задача не добавлена!";
                     }
                 }
                 break;
@@ -98,6 +103,7 @@ public class TaskHandler implements HttpHandler {
                 }
                 break;
             default:
+                statusCode = 400;
                 response = "Вы использовали какой-то другой метод!";
         }
         return new PairAnswer(statusCode, response);

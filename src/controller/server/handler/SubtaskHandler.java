@@ -34,13 +34,14 @@ public class SubtaskHandler implements HttpHandler {
         String method = httpExchange.getRequestMethod();
         String query = httpExchange.getRequestURI().getQuery();
         String path = httpExchange.getRequestURI().getPath();
+        String[] paths = path.split("/");
         InputStream inputStream = httpExchange.getRequestBody();
         String body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
 
         String response = "";
         Integer statusCode = 200;
 
-        if ("GET".equals(method) && path.endsWith("epic")) {
+        if ("GET".equals(method) && paths.length == 4 && "epic".equals(paths[3])) {
             if (query == null || query.isEmpty()) {
                 statusCode = 404;
             } else {
@@ -68,14 +69,19 @@ public class SubtaskHandler implements HttpHandler {
             case "POST":
                 Subtask newSubtask = gson.fromJson(body, Subtask.class);
                 try {
-                    taskManager.create(newSubtask);
-                    response = "Подзадача добавлена!";
+                    if (taskManager.create(newSubtask) != null || taskManager.create(newSubtask).getId() == null) {
+                        statusCode = 400;
+                        response = "Подзадача не добавлена!";
+                    } else {
+                        response = "Подзадача добавлена!";
+                    }
                 } catch (TaskManagerException error) {
                     try {
                         taskManager.update(newSubtask);
                         response = "Подзадача обновлена!";
                     } catch (TaskManagerException errorUpdate) {
                         statusCode = 400;
+                        response = "Подзадача не добавлена и не обновлена!";
                     }
                 }
                 break;
@@ -113,6 +119,7 @@ public class SubtaskHandler implements HttpHandler {
                 }
                 break;
             default:
+                statusCode = 400;
                 response = "Вы использовали какой-то другой метод!";
         }
         return new PairAnswer(statusCode, response);

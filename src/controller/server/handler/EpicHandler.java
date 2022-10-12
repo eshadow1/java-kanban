@@ -52,14 +52,19 @@ public class EpicHandler implements HttpHandler {
             case "POST":
                 Epic newEpic = gson.fromJson(body, Epic.class);
                 try {
-                    taskManager.create(newEpic);
-                    response = "Эпик добавлен!";
+                    if (taskManager.create(newEpic) != null || taskManager.create(newEpic).getId() == null) {
+                        statusCode = 400;
+                        response = "Эпик не добавлен!";
+                    } else {
+                        response = "Эпик добавлен!";
+                    }
                 } catch (TaskManagerException error) {
                     try {
                         taskManager.update(newEpic);
                         response = "Эпик обновлен!";
                     } catch (TaskManagerException errorUpdate) {
                         statusCode = 400;
+                        response = "Эпик не добавлен!";
                     }
                 }
                 break;
@@ -97,6 +102,7 @@ public class EpicHandler implements HttpHandler {
                 }
                 break;
             default:
+                statusCode = 400;
                 response = "Вы использовали какой-то другой метод!";
         }
         return new PairAnswer(statusCode, response);

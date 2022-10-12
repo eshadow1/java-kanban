@@ -108,7 +108,6 @@ public class InMemoryTaskManager implements TaskManager {
         return tasks.put(task.getId(), task);
     }
 
-
     @Override
     public Subtask create(Subtask subtask) {
         if (subtask.getId() != null || !subtask.getStatus().equals(Status.NEW)) {
