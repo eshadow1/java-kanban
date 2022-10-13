@@ -115,7 +115,7 @@ public class Epic extends Task {
 
     private void updateDateTime() {
         if (subtasks.isEmpty()) {
-            setStartTime(null);
+            setStartPeriod(null);
             setDurationMinutes(null);
             return;
         }
@@ -123,12 +123,12 @@ public class Epic extends Task {
         LocalDateTime startTime = null;
         LocalDateTime endTime = null;
         for (var task : subtasks.values()) {
-            if (task.getStartTime() != null) {
+            if (task.getStartPeriod() != null) {
                 if (startTime == null) {
-                    startTime = task.getStartTime();
+                    startTime = task.getStartPeriod();
                 } else {
-                    if (task.getStartTime().isBefore(startTime)) {
-                        startTime = task.getStartTime();
+                    if (task.getStartPeriod().isBefore(startTime)) {
+                        startTime = task.getStartPeriod();
                     }
                 }
                 if (endTime == null) {
@@ -140,7 +140,7 @@ public class Epic extends Task {
                 }
             }
         }
-        setStartTime(startTime);
+        setStartPeriod(startTime);
         if (startTime == null || endTime == null) {
             setDurationMinutes(null);
         } else {

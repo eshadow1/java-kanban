@@ -1,9 +1,9 @@
 package logic;
 
-import controller.Manager;
-import controller.task.GeneratorIdTask;
-import controller.task.TaskManager;
-import controller.task.TaskManagerException;
+import core.Manager;
+import core.task.GeneratorIdTask;
+import core.task.TaskManager;
+import core.task.TaskManagerException;
 import model.task.Epic;
 import model.task.Status;
 import model.task.Subtask;

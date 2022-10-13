@@ -11,27 +11,27 @@ public class Task implements Comparable<Task> {
     protected final String title;
     protected final String description;
     protected Status status;
-    protected LocalDateTime startTime;
+    protected LocalDateTime startPeriod;
     protected Type type;
     protected Duration durationMinutes;
     private static final int SIZE_TASK_CONFIG_CSV = 7;
 
-    protected Task(Integer id, String title, String description, Status status, LocalDateTime startTime, Integer minutes) {
+    protected Task(Integer id, String title, String description, Status status, LocalDateTime startPeriod, Integer minutes) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
         this.durationMinutes = minutes == null ? null : Duration.ofMinutes(minutes);
-        this.startTime = startTime;
+        this.startPeriod = startPeriod;
         this.type = TASK;
     }
 
-    public Task(String title, String description, LocalDateTime startTime, Integer minutes) {
+    public Task(String title, String description, LocalDateTime startPeriod, Integer minutes) {
         this.id = null;
         this.title = title;
         this.description = description;
         this.status = Status.NEW;
-        this.startTime = startTime;
+        this.startPeriod = startPeriod;
         this.durationMinutes = minutes == null ? null : Duration.ofMinutes(minutes);
         this.type = TASK;
     }
@@ -41,17 +41,17 @@ public class Task implements Comparable<Task> {
         this.title = title;
         this.description = description;
         this.status = Status.NEW;
-        this.startTime = null;
+        this.startPeriod = null;
         this.durationMinutes = null;
         this.type = TASK;
     }
 
-    public Task(String title, String description, Status status, LocalDateTime startTime, Integer minutes) {
+    public Task(String title, String description, Status status, LocalDateTime startPeriod, Integer minutes) {
         this.id = null;
         this.title = title;
         this.description = description;
         this.status = status;
-        this.startTime = startTime;
+        this.startPeriod = startPeriod;
         this.durationMinutes = minutes == null ? null : Duration.ofMinutes(minutes);
         this.type = TASK;
     }
@@ -61,7 +61,7 @@ public class Task implements Comparable<Task> {
         this.title = title;
         this.description = description;
         this.status = status;
-        this.startTime = null;
+        this.startPeriod = null;
         this.durationMinutes = null;
         this.type = TASK;
     }
@@ -73,17 +73,17 @@ public class Task implements Comparable<Task> {
         Task task = (Task) o;
         return Objects.equals(id, task.id) && Objects.equals(description, task.description)
                 && Objects.equals(title, task.title) && Objects.equals(status, task.status)
-                && Objects.equals(startTime, task.startTime) && Objects.equals(durationMinutes, task.durationMinutes);
+                && Objects.equals(startPeriod, task.startPeriod) && Objects.equals(durationMinutes, task.durationMinutes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, id, status, startTime, durationMinutes);
+        return Objects.hash(title, description, id, status, startPeriod, durationMinutes);
     }
 
     @Override
     public String toString() {
-        String startTimeString = (startTime == null) ? "null" : startTime.toString();
+        String startTimeString = (startPeriod == null) ? "null" : startPeriod.toString();
         Integer durationNumberMinutes = (durationMinutes == null) ? null : (int) durationMinutes.toMinutes();
         return id + "," +
                 type + "," +
@@ -132,19 +132,19 @@ public class Task implements Comparable<Task> {
     }
 
     public LocalDateTime getEndTime() {
-        if (startTime == null)
+        if (startPeriod == null)
             return null;
         if (durationMinutes == null)
-            return startTime;
-        return startTime.plus(durationMinutes);
+            return startPeriod;
+        return startPeriod.plus(durationMinutes);
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public LocalDateTime getStartPeriod() {
+        return startPeriod;
     }
 
     public Duration getDurationMinutes() {
@@ -159,8 +159,8 @@ public class Task implements Comparable<Task> {
         this.status = status;
     }
 
-    protected void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    protected void setStartPeriod(LocalDateTime startPeriod) {
+        this.startPeriod = startPeriod;
     }
 
     protected void setDurationMinutes(Duration durationMinutes) {
@@ -182,18 +182,18 @@ public class Task implements Comparable<Task> {
             return -1;
         }
 
-        if (o.getStartTime() == null) {
+        if (o.getStartPeriod() == null) {
             return -1;
         }
 
-        if (this.getStartTime() == null) {
+        if (this.getStartPeriod() == null) {
             return 1;
         }
 
-        if(this.getStartTime().equals(o.getStartTime())) {
+        if(this.getStartPeriod().equals(o.getStartPeriod())) {
             return this.getTitle().compareTo(o.getTitle());
         }
 
-        return this.getStartTime().compareTo(o.getStartTime());
+        return this.getStartPeriod().compareTo(o.getStartPeriod());
     }
 }
