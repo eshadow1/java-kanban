@@ -45,6 +45,7 @@ public class EpicAdapter extends TypeAdapter<Epic> {
                     description = jsonReader.nextString();
                     break;
                 default:
+                    jsonReader.skipValue();
                     break;
             }
         }

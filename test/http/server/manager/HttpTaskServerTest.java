@@ -1,6 +1,14 @@
 package http.server.manager;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import core.task.GeneratorIdTask;
+import http.server.manager.handler.adapter.EpicAdapter;
+import http.server.manager.handler.adapter.SubtaskAdapter;
+import http.server.manager.handler.adapter.TaskAdapter;
+import model.task.Epic;
+import model.task.Subtask;
+import model.task.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +41,7 @@ class HttpTaskServerTest {
     private static URI urlSubtaskForEpic;
     private static URI urlEpicId0;
     private static URI urlEpicId1;
-
+    private static Gson gson;
     @BeforeAll
     public static void beforeAll() {
         urlTasks = URI.create("http://localhost:8080/tasks/");
@@ -54,6 +62,13 @@ class HttpTaskServerTest {
 
         urlEpicId0 = URI.create("http://localhost:8080/tasks/epic/?id=0");
         urlEpicId1 = URI.create("http://localhost:8080/tasks/epic/?id=1");
+
+        gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(Epic.class, new EpicAdapter())
+                .registerTypeAdapter(Subtask.class, new SubtaskAdapter())
+                .registerTypeAdapter(Task.class, new TaskAdapter())
+                .create();
     }
 
     @BeforeEach
@@ -135,6 +150,9 @@ class HttpTaskServerTest {
             HttpRequest requestGet = HttpRequest.newBuilder().uri(urlTaskId0).GET().build();
             HttpResponse<String> responseGet = client.send(requestGet, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, responseGet.statusCode());
+
+            var responseTask = gson.fromJson(responseGet.body(), Task.class);
+            assertEquals("task1", responseTask.getTitle());
         } catch (IOException | InterruptedException error) {
             throw new RuntimeException(error);
         }
@@ -227,6 +245,9 @@ class HttpTaskServerTest {
             HttpResponse<String> responseGetFirst = client.send(requestGetFirst, HttpResponse.BodyHandlers.ofString());
 
             assertEquals(200, responseGetFirst.statusCode());
+
+            var responseSubtask = gson.fromJson(responseGetFirst.body(), Subtask.class);
+            assertEquals("subtask1", responseSubtask.getTitle());
         } catch (IOException | InterruptedException error) {
             throw new RuntimeException(error);
         }
@@ -341,6 +362,9 @@ class HttpTaskServerTest {
             HttpRequest requestGet = HttpRequest.newBuilder().uri(urlEpicId0).GET().build();
             HttpResponse<String> responseGet = client.send(requestGet, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, responseGet.statusCode());
+
+            var responseEpic = gson.fromJson(responseGet.body(), Epic.class);
+            assertEquals("epic", responseEpic.getTitle());
         } catch (IOException | InterruptedException error) {
             throw new RuntimeException(error);
         }

@@ -63,6 +63,7 @@ public class SubtaskAdapter extends TypeAdapter<Subtask> {
                     idParentEpic = jsonReader.nextInt();
                     break;
                 default:
+                    jsonReader.skipValue();
                     break;
             }
         }

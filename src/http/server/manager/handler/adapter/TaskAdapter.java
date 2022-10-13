@@ -58,6 +58,7 @@ public class TaskAdapter extends TypeAdapter<Task> {
                     durationMinutes = jsonReader.nextInt();
                     break;
                 default:
+                    jsonReader.skipValue();
                     break;
             }
         }
