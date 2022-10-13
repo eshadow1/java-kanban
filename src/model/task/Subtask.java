@@ -9,8 +9,8 @@ public class Subtask extends Task {
     private static final int SIZE_SUBTASK_CONFIG_CSV = 8;
     private final Integer idParentEpic;
 
-    public Subtask(String title, String description, LocalDateTime startTime, Integer durationMinutes, Integer idParentEpic) {
-        super(title, description, startTime, durationMinutes);
+    public Subtask(String title, String description, LocalDateTime startPeriod, Integer durationMinutes, Integer idParentEpic) {
+        super(title, description, startPeriod, durationMinutes);
         this.idParentEpic = idParentEpic;
         this.type = SUBTASK;
     }
@@ -21,9 +21,9 @@ public class Subtask extends Task {
         this.type = SUBTASK;
     }
 
-    public Subtask(String title, String description, Status status, LocalDateTime startTime,
+    public Subtask(String title, String description, Status status, LocalDateTime startPeriod,
                    Integer durationMinutes, Integer idParentEpic) {
-        super(title, description, status, startTime, durationMinutes);
+        super(title, description, status, startPeriod, durationMinutes);
         this.idParentEpic = idParentEpic;
         this.type = SUBTASK;
     }
@@ -35,8 +35,8 @@ public class Subtask extends Task {
     }
 
     private Subtask(Integer id, String title, String description, Status status,
-                    LocalDateTime startTime, Integer durationMinutes, Integer idParentEpic) {
-        super(id, title, description, status, startTime, durationMinutes);
+                    LocalDateTime startPeriod, Integer durationMinutes, Integer idParentEpic) {
+        super(id, title, description, status, startPeriod, durationMinutes);
         this.idParentEpic = idParentEpic;
         this.type = SUBTASK;
     }

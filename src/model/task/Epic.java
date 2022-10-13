@@ -17,8 +17,8 @@ public class Epic extends Task {
     }
 
     private Epic(Integer id, String title, String description, Status status,
-                 LocalDateTime startTime, Integer durationMinutes) {
-        super(id, title, description, status, startTime, durationMinutes);
+                 LocalDateTime startPeriod, Integer durationMinutes) {
+        super(id, title, description, status, startPeriod, durationMinutes);
         this.subtasks = new HashMap<>();
         this.type = EPIC;
         updateStatusAndDateTime();
@@ -120,15 +120,15 @@ public class Epic extends Task {
             return;
         }
 
-        LocalDateTime startTime = null;
+        LocalDateTime startPeriod = null;
         LocalDateTime endTime = null;
         for (var task : subtasks.values()) {
             if (task.getStartPeriod() != null) {
-                if (startTime == null) {
-                    startTime = task.getStartPeriod();
+                if (startPeriod == null) {
+                    startPeriod = task.getStartPeriod();
                 } else {
-                    if (task.getStartPeriod().isBefore(startTime)) {
-                        startTime = task.getStartPeriod();
+                    if (task.getStartPeriod().isBefore(startPeriod)) {
+                        startPeriod = task.getStartPeriod();
                     }
                 }
                 if (endTime == null) {
@@ -140,11 +140,11 @@ public class Epic extends Task {
                 }
             }
         }
-        setStartPeriod(startTime);
-        if (startTime == null || endTime == null) {
+        setStartPeriod(startPeriod);
+        if (startPeriod == null || endTime == null) {
             setDurationMinutes(null);
         } else {
-            setDurationMinutes(Duration.between(startTime, endTime));
+            setDurationMinutes(Duration.between(startPeriod, endTime));
         }
     }
 }
